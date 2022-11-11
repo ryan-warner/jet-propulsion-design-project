@@ -2,7 +2,7 @@
 
 ## How it Works
 
-Inputs:
+### Inputs:
 - Ambient temperature
 - Ambient pressure
 - Fuel storage pressure
@@ -13,7 +13,7 @@ Inputs:
 - Bypass ratio
 - Bleed ratio
 
-Flow Properties:
+### Flow Properties:
 - Average specific heat ratios and gas molecular weights across each component
 - Adiabatic efficiencies for the nozzles, diffuser, and fuel pump; in addition to ram pressure recovery for the diffuser
 - Polytropic efficiencies for the fan, compressor, and turbines
@@ -23,13 +23,13 @@ Flow Properties:
 - Specific drag loss of the bypass fan
 - Pressure loss function of the virtual nozzle mixer
 
-Constraints:
+### Constraints:
 - Temperature limits
     - Main burner
     - Afterburner
 - Maxmimum allowed bleed fraction
 
-Outputs:
+### Outputs:
 - Air speed
 - Exit temperature
 - Exit pressure
