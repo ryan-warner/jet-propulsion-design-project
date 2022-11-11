@@ -155,6 +155,11 @@ b_max_t   =  0.12;
 %Turbine C_beta1
 C_b1_t    =  700;    %K
 
+%Turbine Stagnation Temperature Ratio
+T_r_t     =  0.0;
+
+%Turbine Efficiency
+nt = (T_r_t - 1) ./ (T_r_t .^(1/nt_poly) - 1);
 
 
 %% TURBINE MIXER
