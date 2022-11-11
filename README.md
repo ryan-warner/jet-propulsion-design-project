@@ -56,9 +56,9 @@ Outputs:
 
 ## To Do
 
-- [] Identify an engine configuration and design parameters for each of the four missions that achieves the desired ST levels, while maintaining high efficiency
-- [] Choose a single engine for each vehicle type, taking into account both flight conditions and anything else you deem important
-- [] Determine the maximim thrust and corresponding TSFC for the above engine, at both flight conditions
+- [ ] Identify an engine configuration and design parameters for each of the four missions that achieves the desired ST levels, while maintaining high efficiency
+- [ ] Choose a single engine for each vehicle type, taking into account both flight conditions and anything else you deem important
+- [ ] Determine the maximim thrust and corresponding TSFC for the above engine, at both flight conditions
 
 ## Engine Stages
 
