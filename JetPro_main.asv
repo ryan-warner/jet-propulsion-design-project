@@ -62,15 +62,19 @@ nd      =   0.92;
 %Diffuser Specific Heat
 gamma_d =   1.4;
 
+
+
+
 if M_inf < 1
     rd = 1;
 else
     rd = 1 - 0.075 .* ((M_inf - 1) .^1.35);
 end
 
+
 %DIFUSSER OUTPUTS
 T02 = Ta .* (1 + (0.5 .* (gamma_d - 1) .* (M_inf .^2)))
-p02 = (pa .* ((1 + (nd .* ((T02 ./ Ta) - 1))) .^ (gamma_d ./ (gamma_d - 1)))) * rd;
+p02 = p02 .* rd
 
 %% FAN
 
