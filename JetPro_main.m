@@ -46,7 +46,6 @@ b       =   0.1;
 Mbar    =  0.0288;
 R       =  8.3145 ./ Mbar;
 
-
 %% Component & Flow Properties
 
 %Average Specific Heat Ratio
@@ -68,7 +67,8 @@ else
     rd = 1 - 0.075 .* ((M_inf - 1) .^1.35);
 end
 
-%DIFUSSER OUTPUTS
+
+%DIFFUSER OUTPUTS
 T02 = Ta .* (1 + (0.5 .* (gamma_d - 1) .* (M_inf .^2)))
 p02 = (pa .* ((1 + (nd .* ((T02 ./ Ta) - 1))) .^ (gamma_d ./ (gamma_d - 1)))) * rd;
 
