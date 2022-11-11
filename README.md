@@ -62,7 +62,21 @@
 
 ## Engine Stages
 
-### Inlet/Diffuser
+### Inlet/Diffuser 
+
+Diffuser Efficiency:
+$\nu_d = 0.92$
+
+Gamma:
+$\gamma = 1.4$
+
+Ram Pressure Recovery:
+If $M_{\infty} < 1$: $r_{d} = 1$
+
+Otherwise $r_{d} = 1 - (M_{\infty} - 1)^{1.35}$
+
+Diffuser sees no losses to ram drag at subsonic flight conditions.
+
 ### Compressor
 ### Combustor
 ### Turbine
