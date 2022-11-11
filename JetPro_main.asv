@@ -131,6 +131,11 @@ pr_b      =  0.98;
 %Heat of Fuel
 Q_b       =  45e6;
 
+%Cp
+Cp = R
+
+p04 = p03 .* pr_b
+T04 = (T03 .* (((f .* Q_b .* T03) ./ Cp) + 1)) ./ (f + 1)
 
 
 
@@ -226,22 +231,19 @@ pr_nm     =  0.80;
 ncn       =  0.95;
 
 %Combined Nozzle Specific Heat
-
-
-
-
-
-
-
-
-
-
-
-
+gamma_cn  =  1.37;
 
 
 
 %% FUEL PUMP
 
+%Fuel Pump Efficiency
+np        =  0.35;
+
+rho_f_np  =  780;   %kg/m^3
+
+p_f1_np   =  104;   %kPa
+
+delta_p_inj_np  =  550;   %kPa
 
 

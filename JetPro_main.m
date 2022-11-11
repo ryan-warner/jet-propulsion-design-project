@@ -131,7 +131,11 @@ pr_b      =  0.98;
 %Heat of Fuel
 Q_b       =  45e6;
 
+%Cp
+Cp = R .* (gamma_b ./ (gamma_b - 1));
 
+p04 = p03 .* pr_b
+T04 = (T03 .* (((f .* Q_b) ./ (T03 .* Cp)) + 1)) ./ (f + 1)
 
 
 %% TURBINE
