@@ -116,7 +116,7 @@ nc = ((pr_c .^ ((gamma_c - 1) ./ gamma_c)) - 1) ./ ((pr_c .^ ((gamma_c - 1) ./ (
 %COMPRESSOR OUTPUTS
 T03 = T03f .* (1 + (((pr_c .^ ((gamma_c - 1) ./ gamma_c)) - 1) ./ nc))
 p03 = p03f .* pr_c
-
+compressorWork = (gamma_c / (gamma_c - 1) * OSC.gasConstant(28.8)) * T02 / nc * (pr_c ^ ((gamma_c - 1)/gamma_c) - 1)
 %% MAIN BURNER
 
 %Main Burner Effeciency
@@ -160,6 +160,8 @@ T_r_t     =  0.0;
 
 %Turbine Efficiency
 nt = (T_r_t - 1) ./ (T_r_t .^(1/nt_poly) - 1);
+
+T05 = T04 + -compressorWork / ((gamma_t / (gamma_t - 1)) * OSC.gasConstant(28.8))
 
 
 %% TURBINE MIXER

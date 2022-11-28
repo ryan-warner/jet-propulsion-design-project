@@ -77,6 +77,10 @@ Otherwise $r_{d} = 1 - (M_{\infty} - 1)^{1.35}$
 
 Diffuser sees no losses to ram drag at subsonic flight conditions.
 
+##### Math
+
+
+
 ### Compressor
 ### Combustor
 ### Turbine
