@@ -1,0 +1,17 @@
+classdef nozzleMixer
+    properties
+        gamma
+        bypassRatio
+
+        pressureFinal
+        temperatureFinal
+    end
+
+    methods
+        function obj = nozzleMixer(gamma, bypassRatio)
+            obj.gamma = gamma;
+            obj.bypassRatio = 
+
+        end
+    end
+end
