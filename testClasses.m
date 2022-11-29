@@ -37,4 +37,18 @@ testFanTurbine = fanTurbine(0.92, 1.33, 0.018, 2, testFan.gamma);
 testFanTurbine = testFanTurbine.temperatureChange(testMixer.temperatureInitial, testFan.temperatureInitial, testFan.temperatureFinal);
 testFanTurbine = testFanTurbine.pressureChange(testMixer.pressureInitial)
 
+% Afterburner Stage - Temperature Wrong!
+testAfterburner = afterburner(1.32, 0.96, 0.018, 0.010, 2200, 45000000, 0.97);
+testAfterburner = testAfterburner.temperatureChange(testFanTurbine.temperatureFinal);
+testAfterburner = testAfterburner.pressureChange(testFanTurbine.pressureFinal)
+
+% Core Nozzle
+testCoreNozzle = coreNozzle(0.95, 1.35, testAfterburner.pressureInitial, testDiffuser.pressureInitial, testDiffuser.temperatureInitial);
+
+% Fan Nozzle
+testFanNozzle = fanNozzle(0.97, 1.4, diffuser.pressureInitial);
+
+% Nozzle Mixer
+
+% Combined Nozzle
 end
