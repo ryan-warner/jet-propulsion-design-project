@@ -43,12 +43,21 @@ testAfterburner = testAfterburner.temperatureChange(testFanTurbine.temperatureFi
 testAfterburner = testAfterburner.pressureChange(testFanTurbine.pressureFinal)
 
 % Core Nozzle
-testCoreNozzle = coreNozzle(0.95, 1.35, testAfterburner.pressureInitial, testDiffuser.pressureInitial, testDiffuser.temperatureInitial);
+testCoreNozzle = coreNozzle(0.95, 1.35, testAfterburner.pressureFinal, testDiffuser.pressureInitial);
+testCoreNozzle = testCoreNozzle.temperatureChange(testAfterburner.temperatureFinal);
+testCoreNozzle = testCoreNozzle.velocityCalc()
 
 % Fan Nozzle
-testFanNozzle = fanNozzle(0.97, 1.4, diffuser.pressureInitial);
+testFanNozzle = fanNozzle(0.97, 1.4, testDiffuser.pressureInitial);
+testFanNozzle = testFanNozzle.temperatureChange(testFan.pressureFinal, testFan.temperatureFinal);
+testFanNozzle = testFanNozzle.velocityCalc(testFan.temperatureFinal)
 
 % Nozzle Mixer
+testNozzleMixer = nozzleMixer(2, 0.018, 0.01, testAfterburner.temperatureFinal, testFan.temperatureFinal);
+
 
 % Combined Nozzle
+testCombinedNozzle = combinedNozzle()
+
+
 end
