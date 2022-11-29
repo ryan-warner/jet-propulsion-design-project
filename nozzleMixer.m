@@ -13,8 +13,7 @@ classdef nozzleMixer
     end
 
     methods
-        function obj = nozzleMixer(gamma, bypassRatio, fuelAirRatio, afterburnerFARatio, afterburnerTemperatureFinal, fanTemperatureFinal)
-            obj.gamma = gamma;
+        function obj = nozzleMixer(bypassRatio, fuelAirRatio, afterburnerFARatio, afterburnerTemperatureFinal, fanTemperatureFinal)
             obj.bypassRatio = bypassRatio;
             obj.fuelAirRatio = fuelAirRatio;
             obj.afterburnerFARatio = afterburnerFARatio;
@@ -24,6 +23,10 @@ classdef nozzleMixer
 
         function obj = temperatureChange(obj)
             obj.temperatureFinal = obj.fanTemperatureFinal + ((obj.afterburnerTemperatureFinal - obj.fanTemperatureFinal) .* ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) / (1 + obj.fuelAirRatio + obj.afterburnerFARatio + obj.bypassRatio)));
+        end
+
+        function obj = gammaCalc(obj)
+            obj.gamma = 1.44 - ((1.39 .* 10e-4) .* obj.temperatureFinal) + ((3.57 .* 10e-8) .* ((obj.temperatureFinal) .^2));
         end
 
         function obj = pressureChange(obj, fanPressureFinal, afterburnerPressureFinal)
