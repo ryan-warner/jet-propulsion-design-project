@@ -161,7 +161,7 @@ T_r_t     =  0.0;
 %Turbine Efficiency
 nt = (T_r_t - 1) ./ (T_r_t .^(1/nt_poly) - 1);
 
-T05 = T04 + -compressorWork / ((gamma_t / (gamma_t - 1)) * OSC.gasConstant(28.8))
+T05 = T04 + -compressorWork / ((gamma_t / (gamma_t - 1)) * OSC.gasConstant(28.8));
 
 
 %% TURBINE MIXER

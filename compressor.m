@@ -4,6 +4,9 @@ classdef compressor
         polytropicEfficiency
         gamma
         efficiency
+        specificHeat
+        flowrate
+        workrate
 
         pressureInitial
         pressureFinal
@@ -12,9 +15,14 @@ classdef compressor
     end
 
     methods
-        function obj = compressor(stagnationPressureRatio, gamma, polytropicEfficiency)
+        function obj = compressor(stagnationPressureRatio, gamma, polytropicEfficiency, flowrate)
             obj.gamma = gamma;
             obj.stagnationPressureRatio = stagnationPressureRatio;
+            obj.flowrate = flowrate;
+
+            Mbar =  0.0288;
+            R =  8.3145 ./ Mbar;
+            obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
             obj.polytropicEfficiency = polytropicEfficiency;
             obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma * obj.polytropicEfficiency))) - 1);
         end
@@ -22,6 +30,7 @@ classdef compressor
         function obj = temperatureChange(obj, temperatureInitial)
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial .* (1 + (((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ obj.efficiency))
+            obj.workrate = obj.flowrate * obj.specificHeat * (obj.temperatureFinal - obj.temperatureInitial);
         end
 
         function obj = pressureChange(obj, pressureInitial)
