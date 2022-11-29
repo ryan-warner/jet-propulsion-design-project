@@ -34,7 +34,8 @@ classdef afterburner
         function obj = temperatureChange(obj, temperatureInitial)
             obj.temperatureInitial = temperatureInitial;
             %obj.temperatureFinal = (((obj.efficiency * obj.fuelAirRatioAfterburner * obj.fuelHeat * (1 + obj.gamma)) / (obj.gamma * obj.R)) + (obj.temperatureInitial * (1 + obj.fuelAirRatio))) / (1 + obj.fuelAirRatio + obj.fuelAirRatioAfterburner);
-            obj.temperatureFinal = (obj.fuelAirRatioAfterburner * Q_r * n_ab + (1 + f) * cp_ab * T052) / (cp_ab * (1 + f + f_ab))
+            obj
+            %obj.temperatureFinal = (obj.fuelAirRatioAfterburner * obj.fuelHeat * obj.efficiency + (1 + obj.fuelAirRatio) * obj.specificHeat * obj.temperatureInitial) / (obj.specificHeat * (1 + obj.fuelAirRatio + obj.fuelAirRatioAfterburner));
         end
 
         function obj = pressureChange(obj, pressureInitial)
