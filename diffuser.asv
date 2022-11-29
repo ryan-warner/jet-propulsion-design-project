@@ -1,0 +1,30 @@
+classdef diffuser
+    properties
+        diffuserEfficiency
+        gamma
+        flightMach
+        ramDrag
+        
+    end
+
+    methods
+        function obj = diffuser(diffuserEfficiency, gamma, ramDrag, flightMach)
+            obj.diffuserEfficiency = diffuserEfficiency;
+            obj.gamma = gamma;
+            obj.flightMach = flightMach;
+            if obj.flightMach < 1
+                obj.ramDrag = 1
+            else
+                obj.ramDrag = 1 - 0.075 .* ((flightMach - 1) .^1.35);
+            end
+        end
+
+        function exitTemperature = temperatureChange(temperatureAmb)
+            exitTemperature = temperatureAmb .* (1 + (0.5 .* (obj.gamma - 1) .* (obj.flightMach .^2)))
+        end
+
+        function exitStagPressure = stagnationPressureChange(pressureAmb)
+            exitStagPressure = (pressureAmb .* ((1 + (nd .* ((T02 ./ Ta) - 1))) .^ (gamma_d ./ (gamma_d - 1)))) * rd;
+    end
+
+end
