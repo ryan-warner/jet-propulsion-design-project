@@ -24,12 +24,14 @@ classdef compressor
             R =  8.3145 ./ Mbar;
             obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
             obj.polytropicEfficiency = polytropicEfficiency;
+            
+            %Again, is this needed?
             obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma * obj.polytropicEfficiency))) - 1);
         end
 
         function obj = temperatureChange(obj, temperatureInitial)
             obj.temperatureInitial = temperatureInitial;
-            obj.temperatureFinal = obj.temperatureInitial .* (1 + (((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ obj.efficiency))
+            obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ (obj.gamma - 1 ./ (obj.gamma .* obj.polytropicEfficiency)));
             obj.workrate = obj.flowrate * obj.specificHeat * (obj.temperatureFinal - obj.temperatureInitial);
         end
 
