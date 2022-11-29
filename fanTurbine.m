@@ -35,7 +35,7 @@ classdef fanTurbine
 
         function obj = pressureChange(obj, pressureInitial)
             obj.pressureInitial = pressureInitial;
-            obj.pressureFinal = (obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.efficiency * (obj.gamma - 1)));
+            obj.pressureFinal = obj.pressureInitial * (obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.efficiency * (obj.gamma - 1)));
         end
     end
 

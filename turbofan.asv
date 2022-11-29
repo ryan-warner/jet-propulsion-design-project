@@ -1,7 +1,0 @@
-classdef turbofan
-    properties
-        fuelAirRatio
-        bypa
-    end
-
-end

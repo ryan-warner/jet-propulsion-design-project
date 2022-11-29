@@ -31,7 +31,7 @@ classdef compressor
 
         function obj = temperatureChange(obj, temperatureInitial)
             obj.temperatureInitial = temperatureInitial;
-            obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ (obj.gamma - 1 ./ (obj.gamma .* obj.polytropicEfficiency)));
+            obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma .* obj.polytropicEfficiency)));
             obj.workrate = obj.flowrate * obj.specificHeat * (obj.temperatureFinal - obj.temperatureInitial);
         end
 

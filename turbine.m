@@ -6,7 +6,7 @@ classdef turbine
         efficiency
         specificHeat
         maxTemperature
-        maxBleedRatio
+        bleedRatio
         cBeta1
         workrate
         flowrate
@@ -19,13 +19,11 @@ classdef turbine
     end
 
     methods
-        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, maxBleedRatio, cBeta1, workrate, flowrate, stagnationTemperatureRatio, fuelAirRatio)
-            obj.stagnationTemperatureRatio = stagnationTemperatureRatio;
+        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, bleedRatio, cBeta1, workrate, flowrate, fuelAirRatio)
             obj.polytropicEfficiency = polytropicEfficiency;
-            obj.efficiency = (obj.stagnationTemperatureRatio - 1) ./ (obj.stagnationTemperatureRatio .^(1/obj.polytropicEfficiency) - 1);
             obj.gamma = gamma;
             obj.maxTemperature = maxTemperature;
-            obj.maxBleedRatio = maxBleedRatio;
+            obj.bleedRatio = bleedRatio;
             obj.cBeta1 = cBeta1;
             obj.workrate = workrate;
             obj.flowrate = flowrate;
@@ -36,9 +34,11 @@ classdef turbine
             obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
         end
 
-        function obj = temperatureChange(obj, temperatureInitial)
+        function obj = temperatureChange(obj, temperatureInitial, compressorTemperatureInitial, compressorTemperatureFinal, compressorSpecificHeat)
             obj.temperatureInitial = temperatureInitial;
-            obj.temperatureFinal = obj.temperatureInitial - ((obj.workrate / obj.flowrate) / (obj.specificHeat * (1 + obj.fuelAirRatio - obj.maxBleedRatio)));
+            obj.temperatureFinal = obj.temperatureInitial - (((compressorTemperatureFinal - compressorTemperatureInitial) * compressorSpecificHeat) / (obj.specificHeat * (1 + obj.fuelAirRatio - obj.bleedRatio)));
+            obj.stagnationTemperatureRatio = obj.temperatureFinal / obj.temperatureInitial;
+            obj.efficiency = (obj.stagnationTemperatureRatio - 1) ./ (obj.stagnationTemperatureRatio .^(1 / obj.polytropicEfficiency) - 1);
         end
     
         function obj = pressureChange(obj, pressureInitial)

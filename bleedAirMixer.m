@@ -1,7 +1,7 @@
 classdef bleedAirMixer
     properties
         gamma
-        maxBleedRatio
+        bleedRatio
         fuelAirRatio
 
         pressureInitial
@@ -11,20 +11,20 @@ classdef bleedAirMixer
     end
 
     methods 
-        function obj = bleedAirMixer(gamma, maxBleedRatio, fuelAirRatio)
+        function obj = bleedAirMixer(gamma, bleedRatio, fuelAirRatio)
             obj.gamma = gamma;
             obj.fuelAirRatio = fuelAirRatio;
-            obj.maxBleedRatio = maxBleedRatio;
+            obj.bleedRatio = bleedRatio;
         end
 
         function obj = temperatureChange(obj, temperatureInitial, compressorExitTemperature)
             obj.temperatureInitial = temperatureInitial;
-            obj.temperatureFinal = ((1 + obj.fuelAirRatio - obj.maxBleedRatio) * obj.temperatureInitial - compressorExitTemperature * obj.maxBleedRatio) / (1 + obj.fuelAirRatio);
+            obj.temperatureFinal = ((1 + obj.fuelAirRatio - obj.bleedRatio) * obj.temperatureInitial + compressorExitTemperature * obj.bleedRatio) / (1 + obj.fuelAirRatio);
         end
         
         function obj = pressureChange(obj, pressureInitial, compressorExitTemperature)
             obj.pressureInitial = pressureInitial;
-            obj.pressureFinal = obj.pressureInitial * ((obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.gamma - 1))) * ((obj.temperatureInitial / compressorExitTemperature)^((obj.gamma * obj.maxBleedRatio) / (obj.gamma * (1 + obj.fuelAirRatio))));
+            obj.pressureFinal = obj.pressureInitial * ((obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.gamma - 1))) * ((obj.temperatureInitial / compressorExitTemperature)^((obj.gamma * obj.bleedRatio) / (obj.gamma * (1 + obj.fuelAirRatio))));
         end
 
     end
