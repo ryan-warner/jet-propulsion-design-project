@@ -18,12 +18,13 @@ classdef fan
             obj.stagnationPressureRatio = stagnationPressureRatio;
             obj.gamma = gamma;
             obj.cBeta1 = cBeta1;
+            %do we even need this??
             obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma .* obj.polytropicEfficiency))) - 1);
         end
 
         function obj = temperatureChange(obj, temperatureInitial)
             obj.temperatureInitial = temperatureInitial;
-            obj.temperatureFinal = obj.temperatureInitial .* (1 + (((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ obj.efficiency));
+            obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ ((obj.gamma - 1) / (obj.gamma .* obj.polytropicEfficiency)));
         end
 
         function obj = pressureChange(obj, pressureInitial)
