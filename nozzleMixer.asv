@@ -23,11 +23,11 @@ classdef nozzleMixer
         end
 
         function obj = temperatureChange(obj)
-            obj.temperatureFinal = obj.fanTemperatureFinal + ((obj.afterburnerTemperatureFinal - obj.fanTemperatureFinal) .* ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) / (1 + obj.fuelAirRatio + obj.afterburnerFARatio + obj.bypassRatio)));
+            obj.temperatureFinal = fanTemperatureFinal + ((abTemperatureFinal - fanTemperatureFinal) .* ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) / (1 + obj.fuelAirRatio + obj.afterburnerFARatio + obj.bypassRatio)));
         end
 
         function obj = pressureChange(obj, fanPressureFinal, afterburnerPressureFinal)
-            obj.pressureFinal = fanPressureFinal .* (((obj.temperatureFinal ./ obj.fanTemperatureFinal) .^ (obj.gamma ./ (obj.gamma - 1))) .* ((afterburnerPressureFinal ./ fanPressureFinal) .^ ( (1 + obj.fuelAirRatio + obj.afterburnerFARatio) / (1 + obj.fuelAirRatio + obj.afterburnerFARatio + obj.bypassRatio) )) .* ((obj.fanTemperatureFinal ./ obj.afterburnerTemperatureFinal) .^ ( (obj.gamma .* (1 + obj.fuelAirRatio + obj.afterburnerFARatio)) ./ ((obj.gamma - 1) .* (1 + obj.fuelAirRatio + obj.afterburnerFARatio + obj.bypassRatio)) )));
+            obj.pressureFinal = fanPressureFinal .* (((obj.temperatureFinal ./ obj.fanTemperatureFinal) .^ (obj.gamma ./ (obj.gamma - 1))) .* ((afterburnerPressureFinal ./ fanPressureFinal) .^ ( (1+obj.fuelAirRatio+obj.afterburnerFARatio) / (1+obj.fuelAirRatio+obj.afterburnerFARatio+obj.bypassRatio) )) .* ((obj.fanTemperatureFinal ./ obj.afterburnerTemperatureFinal) .^ ( () ./ () )))
         end
     end
 end
