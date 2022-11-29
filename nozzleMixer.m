@@ -27,6 +27,7 @@ classdef nozzleMixer
 
         function obj = gammaCalc(obj)
             obj.gamma = 1.44 - ((1.39 .* 10e-4) .* obj.temperatureFinal) + ((3.57 .* 10e-8) .* ((obj.temperatureFinal) .^2));
+            %obj.gamma = 1.36;
         end
 
         function obj = pressureChange(obj, fanPressureFinal, afterburnerPressureFinal)

@@ -54,6 +54,9 @@ testFanNozzle = testFanNozzle.velocityCalc(testFan.temperatureFinal)
 
 % Nozzle Mixer
 testNozzleMixer = nozzleMixer(2, 0.018, 0.01, testAfterburner.temperatureFinal, testFan.temperatureFinal);
+testNozzleMixer = testNozzleMixer.temperatureChange();
+testNozzleMixer = testNozzleMixer.gammaCalc();
+testNozzleMixer = testNozzleMixer.pressureChange(testFan.pressureFinal, testAfterburner.pressureFinal)
 
 
 % Combined Nozzle
