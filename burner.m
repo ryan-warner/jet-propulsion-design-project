@@ -34,7 +34,7 @@ classdef burner
         function obj = temperatureChange(obj, temperatureInitial)
             obj.temperatureInitial = temperatureInitial;
             obj.maxFuelAirRatio = ((obj.maxTemperature/obj.temperatureInitial - 1) / (((obj.efficiency * obj.fuelHeat) / (obj.temperatureInitial * obj.specificHeat)) - (obj.maxTemperature / obj.temperatureInitial)));
-            obj.temperatureFinal = 10 .^3 .* (1 + (obj.fuelAirRatio .* obj.efficiency .* obj.fuelHeat) ./ (obj.specificHeat * obj.temperatureInitial)) ./ (1 + obj.fuelAirRatio);
+            obj.temperatureFinal = obj.temperatureInitial .* (((1 - obj.bleedRatio) + (obj.fuelAirRatio .* obj.efficiency .* obj.fuelHeat) ./ (obj.specificHeat  .* obj.temperatureInitial)) ./ ((1 - obj.bleedRatio) + obj.fuelAirRatio));
             
             %obj.temperatureFinal = (obj.efficiency * obj.fuelAirRatio * obj.fuelHeat * (obj.gamma - 1) + obj.temperatureInitial * (1 - obj.bleedRatio)) / (1 + obj.fuelAirRatio - obj.bleedRatio);
             if obj.temperatureFinal > obj.maxTemperature
