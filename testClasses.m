@@ -50,12 +50,12 @@ testAfterburner = testAfterburner.maxFuelAirRatioCalc();
 % Core Nozzle
 testCoreNozzle = coreNozzle(0.95, 1.35, testAfterburner.pressureFinal, testDiffuser.pressureInitial);
 testCoreNozzle = testCoreNozzle.temperatureChange(testAfterburner.temperatureFinal);
-testCoreNozzle = testCoreNozzle.velocityCalc()
+testCoreNozzle = testCoreNozzle.velocityCalc();
 
 % Fan Nozzle
 testFanNozzle = fanNozzle(0.97, 1.4, testDiffuser.pressureInitial);
 testFanNozzle = testFanNozzle.temperatureChange(testFan.pressureFinal, testFan.temperatureFinal);
-testFanNozzle = testFanNozzle.velocityCalc(testFan.temperatureFinal)
+testFanNozzle = testFanNozzle.velocityCalc(testFan.temperatureFinal);
 
 % Nozzle Mixer
 testNozzleMixer = nozzleMixer(2, 0.018, 0.01, testAfterburner.temperatureFinal, testFan.temperatureFinal, 0.80);
@@ -74,16 +74,16 @@ testCombinedNozzle = testCombinedNozzle.TSFCCalc();
 testCombinedNozzle = testCombinedNozzle.efficiencyCalc();
 
 %Separate Nozzle
-testSeparateNozzle = separateNozzle(1.33, testCombinedNozzle.exitVelocity, 0.018, 0.010, 2, testCombinedNozzle.u, 45000000, testCoreNozzle.exitVelocity, testFanNozzle.exitVelocity, testCombinedNozzle.specificDragLoss);
+testSeparateNozzle = separateNozzle(1.33, testCombinedNozzle.exitVelocity, 0.018, 0.010, 2, testCombinedNozzle.u, 45000000, testCoreNozzle.exitVelocity, testFanNozzle.exitVelocity, testCombinedNozzle.specificDragLoss, testCombinedNozzle.effectiveSpecificThrust);
 testSeparateNozzle = testSeparateNozzle.thermalEfficiencyCalc();
-testSeparateNozzle = testSeparateNozzle.propulsiveEfficiencyCalc(testCombinedNozzle.effectiveSpecificThrust);
+testSeparateNozzle = testSeparateNozzle.propulsiveEfficiencyCalc();
 testSeparateNozzle = testSeparateNozzle.specificThrustCalc();
 testSeparateNozzle = testSeparateNozzle.TSFCCalc();
 testSeparateNozzle = testSeparateNozzle.efficiencyCalc()
 
 % Fuel Pump
 testFuelPump = fuelPump(780, 0.018, 0.35);
-testFuelPump = testFuelPump.pumpWorkAfterburner(testBurner.pressureInitial, 104000, testAfterburner.pressureInitial, testAfterburner.fuelAirRatioAfterburner)
+testFuelPump = testFuelPump.pumpWorkAfterburner(testBurner.pressureInitial, 104000, testAfterburner.pressureInitial, testAfterburner.fuelAirRatioAfterburner);
 
 % Ryan Testing
 
