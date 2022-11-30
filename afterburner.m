@@ -18,6 +18,7 @@ classdef afterburner
         pressureFinal
         temperatureInitial
         temperatureFinal
+        maxFuelAirRatio
     end
 
     methods 
@@ -44,6 +45,10 @@ classdef afterburner
         function obj = pressureChange(obj, pressureInitial)
             obj.pressureInitial = pressureInitial;
             obj.pressureFinal = obj.stagnationPressureRatio * obj.pressureInitial;
+        end
+
+        function obj = maxFuelAirRatioCalc(obj)
+            %obj.maxFuelAirRatio = ((obj.maxTemperatureAfterburner ./ obj.temperatureInitial) - 1) ./ (((obj.efficiency .* obj.fuelHeat) ./ (obj.temperatureInitial .* obj.specificHeat)) - (obj.maxFuelAirRatio ./ obj.temperatureInitial));
         end
     end
 end

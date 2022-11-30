@@ -54,7 +54,7 @@ classdef combinedNozzle
 
         function obj = exitVelocityCalc(obj, pressureInitial)
             obj.pressureInitial = pressureInitial;
-            obj.exitVelocity = sqrt(2 .* obj.R .* obj.temperatureInitial .* obj.efficiency .* (obj.gamma / (obj.gamma - 1) .* (1 - (obj.ambientPressure / obj.pressureInitial).^ (obj.gamma ./ (obj.gamma - 1)))));
+            obj.exitVelocity = sqrt(2 .* obj.R .* obj.temperatureInitial .* obj.efficiency .* (obj.gamma / (obj.gamma - 1) .* (1 - (obj.ambientPressure / obj.pressureInitial).^ ((obj.gamma - 1) ./ obj.gamma))));
         end
 
         function obj = thermalEfficiencyCalc(obj)
@@ -71,7 +71,9 @@ classdef combinedNozzle
         end
 
         function obj = propulsiveEfficiencyCalc(obj)
-            obj.propulsiveEfficiency = obj.effectiveSpecificThrust .* (obj.u / ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) .* ((obj.exitVelocity .^ 2) ./ 2) - (1 + obj.bypassRatio) .* ((obj.u .^2) ./ 2)));
+            %Neither of these work lol
+            %obj.propulsiveEfficiency = obj.effectiveSpecificThrust .* (obj.u / ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) .* ((obj.exitVelocity .^ 2) ./ 2) - (1 + obj.bypassRatio) .* ((obj.u .^2) ./ 2)));
+            %obj.propulsiveEfficiency = (2 .* obj.u .* obj.effectiveSpecificThrust) ./ ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) .* (obj.exitVelocity .^2) - (1 + obj.bypassRatio) .* (.5 .* (obj.exitVelocity .^2)));
         end
 
         function obj = efficiencyCalc(obj)
