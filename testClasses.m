@@ -60,7 +60,15 @@ testNozzleMixer = testNozzleMixer.pressureChange(testFan.pressureFinal, testAfte
 
 
 % Combined Nozzle
-%testCombinedNozzle = combinedNozzle()
+testCombinedNozzle = combinedNozzle(.95, 1.37, 2, 0.018, 0.010, 45000000, 1.5, 10);
+testCombinedNozzle = testCombinedNozzle.temperatureChange(testNozzleMixer.temperatureFinal, testNozzleMixer.pressureFinal);
+testCombinedNozzle = testCombinedNozzle.exitVelocityCalc(testNozzleMixer.pressureFinal);
+testCombinedNozzle = testCombinedNozzle.thermalEfficiencyCalc();
+testCombinedNozzle = testCombinedNozzle.dragLossCalc();
+testCombinedNozzle = testCombinedNozzle.specificThrustCalc();
+testCombinedNozzle = testCombinedNozzle.propulsiveEfficiencyCalc()
+testCombinedNozzle = testCombinedNozzle.efficiencyCalc();
+testCombinedNozzle = testCombinedNozzle.TSFCCalc()
 
 
 end
