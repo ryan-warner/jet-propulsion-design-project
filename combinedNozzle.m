@@ -49,7 +49,7 @@ classdef combinedNozzle
 
         function obj = temperatureChange(obj, temperatureInitial, pressureInitial)
             obj.temperatureInitial = temperatureInitial;
-            obj.temperatureFinal = obj.temperatureInitial .* (1- obj.efficiency .* (1 - ( (obj.pressureFinal/ pressureInitial) .^((obj.gamma - 1) ./ obj.gamma) )));
+            obj.temperatureFinal = obj.temperatureInitial .* (1 - obj.efficiency .* (1 - ( (obj.pressureFinal/ pressureInitial) .^((obj.gamma - 1) ./ obj.gamma) )));
         end
 
         function obj = exitVelocityCalc(obj, pressureInitial)

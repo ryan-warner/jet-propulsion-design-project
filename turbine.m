@@ -48,7 +48,7 @@ classdef turbine
         function obj = pressureChange(obj, pressureInitial)
             obj.pressureInitial = pressureInitial;
             %obj.pressureFinal = obj.pressureInitial * (obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.polytropicEfficiency * (obj.gamma - 1)));
-            obj.pressureFinal = obj.pressureInitial .* (1 - ((1 ./ obj.efficiency) .* (1 - (obj.temperatureFinal ./ obj.temperatureInitial)))) .^ (obj.gamma / (obj.gamma - 1))
+            obj.pressureFinal = obj.pressureInitial .* (1 - ((1 ./ obj.efficiency) .* (1 - (obj.temperatureFinal ./ obj.temperatureInitial)))) .^ (obj.gamma / (obj.gamma - 1));
         end
     end
 
