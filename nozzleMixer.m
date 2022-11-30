@@ -1,4 +1,7 @@
 classdef nozzleMixer
+    properties (Constant)
+      station = "7"
+   end
     properties
         gamma
         bypassRatio

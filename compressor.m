@@ -1,4 +1,7 @@
 classdef compressor
+    properties (Constant)
+      station = "3"
+   end
     properties
         stagnationPressureRatio
         polytropicEfficiency

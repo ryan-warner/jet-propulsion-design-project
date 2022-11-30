@@ -1,4 +1,7 @@
 classdef turbine
+    properties (Constant)
+      station = "5.1"
+   end
     properties
         stagnationTemperatureRatio
         polytropicEfficiency

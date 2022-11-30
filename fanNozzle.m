@@ -1,4 +1,7 @@
 classdef fanNozzle
+    properties (Constant)
+      station = "ef"
+   end
     properties
         efficiency
         gamma

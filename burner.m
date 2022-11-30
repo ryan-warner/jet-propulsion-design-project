@@ -1,4 +1,7 @@
 classdef burner
+    properties (Constant)
+      station = "4"
+   end
     properties
         stagnationPressureRatio
         gamma

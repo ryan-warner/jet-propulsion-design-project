@@ -1,4 +1,7 @@
 classdef fan
+    properties (Constant)
+      station = "3f";
+   end
     properties
         polytropicEfficiency
         stagnationPressureRatio
