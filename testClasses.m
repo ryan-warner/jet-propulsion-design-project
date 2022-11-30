@@ -44,6 +44,7 @@ testFanTurbine = testFanTurbine.workCalc();
 testAfterburner = afterburner(1.32, 0.96, 0.018, 0.010, 2200, 45000000, 0.97);
 testAfterburner = testAfterburner.temperatureChange(testFanTurbine.temperatureFinal);
 testAfterburner = testAfterburner.pressureChange(testFanTurbine.pressureFinal);
+testAfterburner = testAfterburner.maxFuelAirRatioCalc()
 
 % Core Nozzle
 testCoreNozzle = coreNozzle(0.95, 1.35, testAfterburner.pressureFinal, testDiffuser.pressureInitial);
@@ -74,12 +75,13 @@ testCombinedNozzle = testCombinedNozzle.efficiencyCalc();
 testCombinedNozzle = testCombinedNozzle.TSFCCalc();
 
 %Separate Nozzle
-testSeparateNozzle = separateNozzle(testCombinedNozzle.exitVelocity, 0.018, 0.010, 2, testCombinedNozzle.u, 45000000);
+testSeparateNozzle = separateNozzle(1.33, testCombinedNozzle.exitVelocity, 0.018, 0.010, 2, testCombinedNozzle.u, 45000000);
 testSeparateNozzle = testSeparateNozzle.thermalEfficiencyCalc();
 testSeparateNozzle = testSeparateNozzle.propulsiveEfficiencyCalc(testCombinedNozzle.effectiveSpecificThrust);
 testSeparateNozzle = testSeparateNozzle.efficiencyCalc();
 testSeparateNozzle = testSeparateNozzle.specificThrustCalc(testCombinedNozzle.specificDragLoss, testCoreNozzle.exitVelocity, testFanNozzle.exitVelocity);
 testSeparateNozzle = testSeparateNozzle.TSFCCalc();
+testSeparateNozzle = testSeparateNozzle.maxFuelAirRatioCalc();
 
 % Ryan Testing
 

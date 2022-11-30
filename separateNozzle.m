@@ -1,6 +1,7 @@
 classdef separateNozzle
     properties
         comboNozzExitVelocity
+        gamma
         fuelAirRatio
         afterburnerFARatio
         bypassRatio
@@ -10,22 +11,29 @@ classdef separateNozzle
         specificDragLoss
         coreNozzExitVelocity
         fanNozzExitVelocity
+        specificHeat
 
         thermalEfficiency
         propulsiveEfficiency
         overallEfficiency
         ST
         TSFC
+        maxFARatio
     end
 
     methods
-        function obj = separateNozzle(comboNozzExitVelocity, fuelAirRatio, afterburnerFARatio, bypassRatio, u, fuelHeat)
+        function obj = separateNozzle(gamma, comboNozzExitVelocity, fuelAirRatio, afterburnerFARatio, bypassRatio, u, fuelHeat)
+            obj.gamma = gamma;
             obj.comboNozzExitVelocity = comboNozzExitVelocity;
             obj.fuelAirRatio = fuelAirRatio;
             obj.afterburnerFARatio = afterburnerFARatio;
             obj.bypassRatio = bypassRatio;
             obj.u = u;
             obj.fuelHeat = fuelHeat;
+
+            Mbar = 0.0288;
+            R = 8.3145 ./ Mbar;
+            obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
         end
 
         function obj = thermalEfficiencyCalc(obj)
@@ -46,6 +54,10 @@ classdef separateNozzle
 
         function obj = TSFCCalc(obj)
             obj.TSFC = (obj.fuelAirRatio + obj.afterburnerFARatio) ./ obj.ST;
+        end
+
+        function obj = maxFuelAirRatioCalc(obj)
+            %obj.maxFARatio = ((1 - obj.bypassRatio) .* obj.specificHeat .* compressorTemperatureFinal - obj.specificHeat .* temperatureMax) ./ (obj.specificHeat .* temperatureMax - obj.fuelHeat .* 0.99);
         end
     end
 end
