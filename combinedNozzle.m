@@ -38,6 +38,8 @@ classdef combinedNozzle
             obj.ambientPressure = ambientPressure;
             obj.pressureFinal = ambientPressure;
 
+            Mbar =  0.0288;
+            obj.R =  8.3145 ./ Mbar;
             obj.specificHeat = 0.245;
         end
 

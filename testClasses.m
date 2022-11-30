@@ -66,7 +66,7 @@ testCombinedNozzle = testCombinedNozzle.exitVelocityCalc(testNozzleMixer.pressur
 testCombinedNozzle = testCombinedNozzle.thermalEfficiencyCalc();
 testCombinedNozzle = testCombinedNozzle.dragLossCalc();
 testCombinedNozzle = testCombinedNozzle.specificThrustCalc();
-testCombinedNozzle = testCombinedNozzle.propulsiveEfficiency();
+testCombinedNozzle = testCombinedNozzle.propulsiveEfficiencyCalc()
 testCombinedNozzle = testCombinedNozzle.efficiencyCalc();
 testCombinedNozzle = testCombinedNozzle.TSFCCalc()
 
