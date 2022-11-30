@@ -1,6 +1,7 @@
 classdef compressor
     properties (Constant)
       station = "3"
+      name = "Compressor"
    end
     properties
         stagnationPressureRatio

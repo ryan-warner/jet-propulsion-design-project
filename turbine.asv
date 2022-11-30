@@ -1,7 +1,6 @@
 classdef turbine
     properties (Constant)
       station = "5.1"
-      name = "Turbine"
    end
     properties
         stagnationTemperatureRatio
@@ -23,13 +22,14 @@ classdef turbine
     end
 
     methods
-        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, bleedRatio, cBeta1, workrate, fuelAirRatio)
+        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, bleedRatio, cBeta1, workrate, flowrate, fuelAirRatio)
             obj.polytropicEfficiency = polytropicEfficiency;
             obj.gamma = gamma;
             obj.maxTemperature = maxTemperature;
             obj.bleedRatio = bleedRatio;
             obj.cBeta1 = cBeta1;
             obj.workrate = workrate;
+            obj.flowrate = flowrate;
             obj.fuelAirRatio = fuelAirRatio;
 
             Mbar =  0.0288;
@@ -47,7 +47,7 @@ classdef turbine
         function obj = pressureChange(obj, pressureInitial)
             obj.pressureInitial = pressureInitial;
             %obj.pressureFinal = obj.pressureInitial * (obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.polytropicEfficiency * (obj.gamma - 1)));
-            obj.pressureFinal = obj.pressureInitial .* (1 - ((1 ./ obj.efficiency) .* (1 - (obj.temperatureFinal ./ obj.temperatureInitial)))) .^ (obj.gamma / (obj.gamma - 1));
+            obj.pressureFinal = 
         end
     end
 

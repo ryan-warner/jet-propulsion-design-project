@@ -36,7 +36,7 @@ testMixer = testMixer.pressureChange(testTurbine.pressureFinal, testCompressor.t
 
 % Fan Turbine
 testFanTurbine = fanTurbine(0.92, 1.33, 0.018, 2, testFan.gamma);
-testFanTurbine = testFanTurbine.temperatureChange(testMixer.temperatureInitial, testFan.temperatureInitial, testFan.temperatureFinal);
+testFanTurbine = testFanTurbine.temperatureChange(testMixer.temperatureFinal, testFan.temperatureInitial, testFan.temperatureFinal);
 testFanTurbine = testFanTurbine.pressureChange(testMixer.pressureInitial);
 testFanTurbine = testFanTurbine.workCalc();
 
@@ -63,7 +63,7 @@ testNozzleMixer = testNozzleMixer.pressureChange(testFan.pressureFinal, testAfte
 
 
 % Combined Nozzle
-testCombinedNozzle = combinedNozzle(.95, 1.37, 2, 0.018, 0.010, 45000000, 1.5, 10);
+testCombinedNozzle = combinedNozzle(.95, 1.37, 2, 0.018, 0.010, 45000000, 1.5, 10000);
 testCombinedNozzle = testCombinedNozzle.temperatureChange(testNozzleMixer.temperatureFinal, testNozzleMixer.pressureFinal);
 testCombinedNozzle = testCombinedNozzle.exitVelocityCalc(testNozzleMixer.pressureFinal);
 testCombinedNozzle = testCombinedNozzle.thermalEfficiencyCalc();

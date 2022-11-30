@@ -1,6 +1,7 @@
 classdef bleedAirMixer
     properties (Constant)
       station = "5.m"
+      name = "Bleed Air Mixer"
    end
     properties
         gamma
@@ -27,7 +28,7 @@ classdef bleedAirMixer
         
         function obj = pressureChange(obj, pressureInitial, compressorExitTemperature)
             obj.pressureInitial = pressureInitial;
-            obj.pressureFinal = obj.pressureInitial * ((obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.gamma - 1))) * ((obj.temperatureInitial / compressorExitTemperature)^((obj.gamma * obj.bleedRatio) / (obj.gamma * (1 + obj.fuelAirRatio))));
+            obj.pressureFinal = obj.pressureInitial * ((obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.gamma - 1))) * ((obj.temperatureInitial / compressorExitTemperature)^((obj.gamma * obj.bleedRatio) / ((obj.gamma - 1) * (1 + obj.fuelAirRatio))));
         end
 
     end

@@ -1,6 +1,7 @@
 classdef nozzleMixer
     properties (Constant)
       station = "7"
+      name = "Nozzle Mixer"
    end
     properties
         gamma
