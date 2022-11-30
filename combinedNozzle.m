@@ -8,7 +8,7 @@ classdef combinedNozzle
         bypassRatio
         fuelAirRatio
         afterburnerFARatio
-        specificHeat
+        Cbeta1
         fuelHeat
         R
         u
@@ -18,7 +18,7 @@ classdef combinedNozzle
         exitVelocity
         thermalEfficiency
         specificDragLoss
-        specificThrust
+        effectiveSpecificThrust
         propulsiveEfficiency
         overallEfficiency
         TSFC
@@ -43,7 +43,7 @@ classdef combinedNozzle
 
             Mbar =  0.0288;
             obj.R =  8.3145 ./ Mbar;
-            obj.specificHeat = 0.245;
+            obj.Cbeta1 = 0.245;
         end
 
         function obj = temperatureChange(obj, temperatureInitial, pressureInitial)
@@ -62,15 +62,15 @@ classdef combinedNozzle
         end
 
         function obj = dragLossCalc(obj)
-            obj.specificDragLoss = obj.specificHeat .* (obj.M .^2) .* (obj.ambientPressure ./ 101.325) .* (obj.bypassRatio .^ 1.5);
+            obj.specificDragLoss = obj.Cbeta1 .* (obj.M .^2) .* (obj.ambientPressure ./ 101.325) .* (obj.bypassRatio .^ 1.5);
         end
 
         function obj = specificThrustCalc(obj)
-            obj.specificThrust = (1 + obj.fuelAirRatio + obj.bypassRatio + obj.afterburnerFARatio) .* obj.exitVelocity - obj.u .* (1 + obj.bypassRatio) - obj.specificDragLoss;
+            obj.effectiveSpecificThrust = (1 + obj.fuelAirRatio + obj.bypassRatio + obj.afterburnerFARatio) .* obj.exitVelocity - obj.u .* (1 + obj.bypassRatio) - obj.specificDragLoss;
         end
 
         function obj = propulsiveEfficiencyCalc(obj)
-            obj.propulsiveEfficiency = obj.specificThrust .* (obj.u / ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) .* ((obj.exitVelocity .^ 2) ./ 2) - (1 + obj.bypassRatio) .* ((obj.u .^2) ./ 2)));
+            obj.propulsiveEfficiency = obj.effectiveSpecificThrust .* (obj.u / ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) .* ((obj.exitVelocity .^ 2) ./ 2) - (1 + obj.bypassRatio) .* ((obj.u .^2) ./ 2)));
         end
 
         function obj = efficiencyCalc(obj)
@@ -78,7 +78,7 @@ classdef combinedNozzle
         end
 
         function obj = TSFCCalc(obj)
-            obj.TSFC = (obj.fuelAirRatio + obj.afterburnerFARatio) ./ obj.specificThrust;
+            obj.TSFC = (obj.fuelAirRatio + obj.afterburnerFARatio) ./ obj.effectiveSpecificThrust;
         end
     end
 end

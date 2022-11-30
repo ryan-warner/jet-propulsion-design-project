@@ -8,7 +8,7 @@ classdef fan
         efficiency
         gamma
         cBeta1
-        work
+        fanWork
         beta
         specificHeat
         
@@ -44,8 +44,8 @@ classdef fan
             obj.pressureFinal = obj.pressureInitial .* obj.stagnationPressureRatio;
         end
 
-        function obj = workCalc(obj)
-            obj.work = (1 + obj.beta) .* obj.specificHeat .* (obj.temperatureFinal - obj.temperatureInitial);
+        function obj = fanWorkCalc(obj)
+            obj.fanWork = (1 + obj.beta) .* obj.specificHeat .* (obj.temperatureFinal - obj.temperatureInitital);
         end
     end
 end

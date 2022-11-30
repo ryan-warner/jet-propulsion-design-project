@@ -41,7 +41,7 @@ classdef compressor
             obj.pressureFinal = obj.pressureInitial .* obj.stagnationPressureRatio;
         end
 
-        function obj = workCalc(obj)
+        function obj = compressWorkCalc(obj)
             obj.work = obj.specificHeat * (obj.temperatureFinal - obj.temperatureInitial);
         end
     end

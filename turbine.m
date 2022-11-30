@@ -22,14 +22,13 @@ classdef turbine
     end
 
     methods
-        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, bleedRatio, cBeta1, workrate, flowrate, fuelAirRatio)
+        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, bleedRatio, cBeta1, workrate, fuelAirRatio)
             obj.polytropicEfficiency = polytropicEfficiency;
             obj.gamma = gamma;
             obj.maxTemperature = maxTemperature;
             obj.bleedRatio = bleedRatio;
             obj.cBeta1 = cBeta1;
             obj.workrate = workrate;
-            obj.flowrate = flowrate;
             obj.fuelAirRatio = fuelAirRatio;
 
             Mbar =  0.0288;

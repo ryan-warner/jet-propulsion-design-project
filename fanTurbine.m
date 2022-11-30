@@ -9,6 +9,7 @@ classdef fanTurbine
         specificHeat
         fuelAirRatio
         bypassRatio
+        work
         fanSpecificHeat
 
         pressureInitial
@@ -39,6 +40,10 @@ classdef fanTurbine
         function obj = pressureChange(obj, pressureInitial)
             obj.pressureInitial = pressureInitial;
             obj.pressureFinal = obj.pressureInitial * (obj.temperatureFinal / obj.temperatureInitial)^(obj.gamma / (obj.efficiency * (obj.gamma - 1)));
+        end
+
+        function obj = workCalc(obj)
+            obj.work = obj.specificHeat .* (1 + obj.fuelAirRatio) .* (obj.temperatureInitial - obj.temperatureFinal);
         end
     end
 
