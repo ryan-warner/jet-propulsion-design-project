@@ -28,7 +28,7 @@ testTurbine = turbine(0.92, 1.33, 1300, 0.1, 700, testCompressor.work, 0.018);
     % If we take 1689 as burner final all numbers work - either our final
     % temp is off or bro rounded weird...
 testTurbine = testTurbine.temperatureChange(testBurner.temperatureFinal, testCompressor.temperatureInitial, testCompressor.temperatureFinal, testCompressor.specificHeat);
-testTurbine = testTurbine.pressureChange(testBurner.pressureFinal);
+testTurbine = testTurbine.pressureChange(testBurner.pressureFinal)
 
 % Bleed Air Mixer - using 0.1 as b
 testMixer = bleedAirMixer(1.34, 0.1, 0.018);
@@ -79,7 +79,7 @@ testSeparateNozzle = testSeparateNozzle.thermalEfficiencyCalc();
 testSeparateNozzle = testSeparateNozzle.propulsiveEfficiencyCalc();
 testSeparateNozzle = testSeparateNozzle.specificThrustCalc();
 testSeparateNozzle = testSeparateNozzle.TSFCCalc();
-testSeparateNozzle = testSeparateNozzle.efficiencyCalc()
+testSeparateNozzle = testSeparateNozzle.efficiencyCalc();
 
 % Fuel Pump
 testFuelPump = fuelPump(780, 0.018, 0.35);
