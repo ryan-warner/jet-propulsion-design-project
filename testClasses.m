@@ -84,12 +84,8 @@ testSeparateNozzle = testSeparateNozzle.TSFCCalc();
 testSeparateNozzle = testSeparateNozzle.maxFuelAirRatioCalc();
 
 % Fuel Pump
-% effieiency 0.35
-% initial 104 kpa
-% outlet 550 kpa
-% density 780
 testFuelPump = fuelPump(780, 0.018, 0.35);
-testFuelPump = testFuelPump.pumpWork(testBurner.pressureInitial, 104000)
+testFuelPump = testFuelPump.pumpWorkAfterburner(testBurner.pressureInitial, 104000, testAfterburner.pressureInitial, testAfterburner.fuelAirRatioAfterburner)
 
 % Ryan Testing
 
