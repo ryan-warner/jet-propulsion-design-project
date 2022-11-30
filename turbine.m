@@ -1,6 +1,7 @@
 classdef turbine
     properties (Constant)
       station = "5.1"
+      name = "Turbine"
    end
     properties
         stagnationTemperatureRatio

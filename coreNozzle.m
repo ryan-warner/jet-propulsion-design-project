@@ -1,6 +1,7 @@
 classdef coreNozzle
     properties (Constant)
       station = "e"
+      name = "Combined Nozzle"
    end
     properties
         efficiency

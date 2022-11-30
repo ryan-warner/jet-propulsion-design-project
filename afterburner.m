@@ -1,6 +1,7 @@
 classdef afterburner
     properties (Constant)
       station = "6"
+      name = "Afterburner"
    end
     properties
         gamma

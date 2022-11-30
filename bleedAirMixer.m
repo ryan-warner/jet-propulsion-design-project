@@ -1,6 +1,7 @@
 classdef bleedAirMixer
     properties (Constant)
       station = "5.m"
+      name = "Bleed Air Mixer"
    end
     properties
         gamma
