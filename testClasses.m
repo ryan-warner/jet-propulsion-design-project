@@ -48,12 +48,12 @@ testAfterburner = testAfterburner.pressureChange(testFanTurbine.pressureFinal);
 % Core Nozzle
 testCoreNozzle = coreNozzle(0.95, 1.35, testAfterburner.pressureFinal, testDiffuser.pressureInitial);
 testCoreNozzle = testCoreNozzle.temperatureChange(testAfterburner.temperatureFinal);
-testCoreNozzle = testCoreNozzle.velocityCalc();
+testCoreNozzle = testCoreNozzle.velocityCalc()
 
 % Fan Nozzle
 testFanNozzle = fanNozzle(0.97, 1.4, testDiffuser.pressureInitial);
 testFanNozzle = testFanNozzle.temperatureChange(testFan.pressureFinal, testFan.temperatureFinal);
-testFanNozzle = testFanNozzle.velocityCalc(testFan.temperatureFinal);
+testFanNozzle = testFanNozzle.velocityCalc(testFan.temperatureFinal)
 
 % Nozzle Mixer
 testNozzleMixer = nozzleMixer(2, 0.018, 0.01, testAfterburner.temperatureFinal, testFan.temperatureFinal, 0.80);
@@ -80,6 +80,14 @@ testSeparateNozzle = testSeparateNozzle.propulsiveEfficiencyCalc(testCombinedNoz
 testSeparateNozzle = testSeparateNozzle.efficiencyCalc();
 testSeparateNozzle = testSeparateNozzle.specificThrustCalc(testCombinedNozzle.specificDragLoss, testCoreNozzle.exitVelocity, testFanNozzle.exitVelocity);
 testSeparateNozzle = testSeparateNozzle.TSFCCalc();
+
+% Fuel Pump
+% effieiency 0.35
+% initial 104 kpa
+% outlet 550 kpa
+% density 780
+testFuelPump = fuelPump(780, 0.018, 0.35);
+testFuelPump = testFuelPump.pumpWork(testBurner.pressureInitial, 104000)
 
 % Ryan Testing
 
