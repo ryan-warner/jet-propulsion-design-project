@@ -13,6 +13,8 @@ classdef burner
         maxTemperature
         maxFuelAirRatio
         bleedRatio
+        maxBleedRatio
+        cBeta1
 
         pressureInitial
         pressureFinal
@@ -21,14 +23,16 @@ classdef burner
     end
 
     methods 
-        function obj = burner(stagnationPressureRatio, gamma, efficiency, fuelHeat, fuelAirRatio, maxTemperature, bleedRatio)
+        function obj = burner(stagnationPressureRatio, gamma, efficiency, fuelHeat, fuelAirRatio, maxTemperature, bleedRatio, maxBleedRatio, cBeta1)
             obj.gamma = gamma;
             obj.efficiency = efficiency;
             obj.stagnationPressureRatio = stagnationPressureRatio;
             obj.fuelHeat = fuelHeat;
             obj.fuelAirRatio = fuelAirRatio;
-            obj.maxTemperature = maxTemperature;
+            obj.maxBleedRatio = maxBleedRatio;
+            obj.cBeta1 = cBeta1;
             obj.bleedRatio = bleedRatio;
+            obj.maxTemperature = maxTemperature + obj.cBeta1 .* sqrt(obj.bleedRatio ./ obj.maxBleedRatio);
             
             Mbar =  0.0288;
             R =  8.3145 ./ Mbar;
@@ -51,5 +55,8 @@ classdef burner
             obj.pressureFinal = pressureInitial .* obj.stagnationPressureRatio;
         end
 
+        function obj = maxFuelAirRatioCalc(obj)
+            obj.maxFuelAirRatio = ((obj.maxTemperature ./ obj.temperatureInitial) - 1) ./ (((obj.efficiency .* obj.fuelHeat) ./ (obj.specificHeat .* obj.temperatureInitial)) - (obj.maxTemperature ./ obj.temperatureInitial));
+        end
     end
 end

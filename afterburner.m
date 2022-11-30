@@ -48,7 +48,7 @@ classdef afterburner
         end
 
         function obj = maxFuelAirRatioCalc(obj)
-            %obj.maxFuelAirRatio = ((obj.maxTemperatureAfterburner ./ obj.temperatureInitial) - 1) ./ (((obj.efficiency .* obj.fuelHeat) ./ (obj.temperatureInitial .* obj.specificHeat)) - (obj.maxFuelAirRatio ./ obj.temperatureInitial));
+           obj.maxFuelAirRatio = ((obj.maxTemperatureAfterburner ./ obj.temperatureInitial) - 1) ./ (((obj.efficiency .* obj.fuelHeat) ./ (obj.temperatureInitial .* obj.specificHeat)) - (obj.maxTemperatureAfterburner ./ obj.temperatureInitial));
         end
     end
 end

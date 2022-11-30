@@ -17,10 +17,8 @@ classdef combinedNozzle
         ambientPressure
 
         exitVelocity
-        thermalEfficiency
         specificDragLoss
         effectiveSpecificThrust
-        propulsiveEfficiency
         overallEfficiency
         TSFC
 
@@ -45,6 +43,7 @@ classdef combinedNozzle
             Mbar =  0.0288;
             obj.R =  8.3145 ./ Mbar;
             obj.Cbeta1 = 0.245;
+            obj.u = sqrt(1.4 .* obj.R .* 220) .* obj.M;
         end
 
         function obj = temperatureChange(obj, temperatureInitial, pressureInitial)
@@ -57,11 +56,6 @@ classdef combinedNozzle
             obj.exitVelocity = sqrt(2 .* obj.R .* obj.temperatureInitial .* obj.efficiency .* (obj.gamma / (obj.gamma - 1) .* (1 - (obj.ambientPressure / obj.pressureInitial).^ ((obj.gamma - 1) ./ obj.gamma))));
         end
 
-        function obj = thermalEfficiencyCalc(obj)
-            obj.u = sqrt(1.4 .* obj.R .* 220) .* obj.M;
-            obj.thermalEfficiency = ((1 + obj.fuelAirRatio + obj.bypassRatio + obj.afterburnerFARatio) .* ((obj.exitVelocity .^ 2) ./ 2) - (1 + obj.bypassRatio) .* ((obj.u .^2) ./ 2)) ./ (2 .* obj.fuelHeat * (obj.fuelAirRatio + obj.afterburnerFARatio));
-        end
-
         function obj = dragLossCalc(obj)
             obj.specificDragLoss = obj.Cbeta1 .* (obj.M .^2) .* (obj.ambientPressure ./ 101.325) .* (obj.bypassRatio .^ 1.5);
         end
@@ -70,18 +64,12 @@ classdef combinedNozzle
             obj.effectiveSpecificThrust = (1 + obj.fuelAirRatio + obj.bypassRatio + obj.afterburnerFARatio) .* obj.exitVelocity - obj.u .* (1 + obj.bypassRatio) - obj.specificDragLoss;
         end
 
-        function obj = propulsiveEfficiencyCalc(obj)
-            %Neither of these work lol
-            %obj.propulsiveEfficiency = obj.effectiveSpecificThrust .* (obj.u / ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) .* ((obj.exitVelocity .^ 2) ./ 2) - (1 + obj.bypassRatio) .* ((obj.u .^2) ./ 2)));
-            %obj.propulsiveEfficiency = (2 .* obj.u .* obj.effectiveSpecificThrust) ./ ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) .* (obj.exitVelocity .^2) - (1 + obj.bypassRatio) .* (.5 .* (obj.exitVelocity .^2)));
+        function obj = TSFCCalc(obj)
+            obj.TSFC = (obj.fuelAirRatio + obj.afterburnerFARatio) ./ obj.effectiveSpecificThrust;
         end
 
         function obj = efficiencyCalc(obj)
-            obj.overallEfficiency = obj.thermalEfficiency .* obj.propulsiveEfficiency;
-        end
-
-        function obj = TSFCCalc(obj)
-            obj.TSFC = (obj.fuelAirRatio + obj.afterburnerFARatio) ./ obj.effectiveSpecificThrust;
+            obj.overallEfficiency = obj.u ./ (obj.TSFC .* obj.fuelHeat);
         end
     end
 end
