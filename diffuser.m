@@ -1,6 +1,7 @@
 classdef diffuser
     properties (Constant)
       station = "2"
+      name = "Diffuser"
    end
     properties
         diffuserEfficiency

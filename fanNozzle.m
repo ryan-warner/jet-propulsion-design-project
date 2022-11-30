@@ -1,6 +1,7 @@
 classdef fanNozzle
     properties (Constant)
       station = "ef"
+      name = "Fan Nozzle"
    end
     properties
         efficiency

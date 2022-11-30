@@ -1,6 +1,7 @@
 classdef fanTurbine
     properties (Constant)
       station = "5.2"
+      name = "Fan Turbine"
    end
     properties
         polytropicEfficiency

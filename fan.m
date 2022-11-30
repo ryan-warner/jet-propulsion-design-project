@@ -1,6 +1,7 @@
 classdef fan
     properties (Constant)
       station = "3f";
+      name = "Fan"
    end
     properties
         polytropicEfficiency

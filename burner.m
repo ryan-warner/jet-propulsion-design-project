@@ -1,6 +1,7 @@
 classdef burner
     properties (Constant)
       station = "4"
+      name = "Burner"
    end
     properties
         stagnationPressureRatio
