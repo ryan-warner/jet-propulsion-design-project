@@ -1,4 +1,7 @@
 classdef combinedNozzle
+    properties (Constant)
+      station = "ec"
+   end
     properties
         efficiency
         gamma

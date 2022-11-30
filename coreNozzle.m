@@ -1,4 +1,7 @@
 classdef coreNozzle
+    properties (Constant)
+      station = "e"
+   end
     properties
         efficiency
         gamma

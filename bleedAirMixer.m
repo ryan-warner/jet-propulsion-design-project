@@ -1,4 +1,7 @@
 classdef bleedAirMixer
+    properties (Constant)
+      station = "5.m"
+   end
     properties
         gamma
         bleedRatio

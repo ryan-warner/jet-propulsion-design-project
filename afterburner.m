@@ -1,4 +1,7 @@
 classdef afterburner
+    properties (Constant)
+      station = "6"
+   end
     properties
         gamma
         efficiency

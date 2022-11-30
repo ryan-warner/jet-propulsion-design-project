@@ -1,4 +1,7 @@
 classdef fanTurbine
+    properties (Constant)
+      station = "5.2"
+   end
     properties
         polytropicEfficiency
         gamma

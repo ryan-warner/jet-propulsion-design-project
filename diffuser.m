@@ -1,4 +1,7 @@
 classdef diffuser
+    properties (Constant)
+      station = "2"
+   end
     properties
         diffuserEfficiency
         gamma
@@ -8,7 +11,7 @@ classdef diffuser
         pressureInitial
         pressureFinal
         temperatureInitial
-        temperatureFinal
+        temperatureFinal 
     end
 
     methods
