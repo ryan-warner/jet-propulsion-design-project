@@ -34,7 +34,7 @@ testMixer = testMixer.pressureChange(testTurbine.pressureFinal, testCompressor.t
 
 % Fan Turbine
 testFanTurbine = fanTurbine(0.92, 1.33, 0.018, 2, testFan.gamma);
-testFanTurbine = testFanTurbine.temperatureChange(testMixer.temperatureInitial, testFan.temperatureInitial, testFan.temperatureFinal);
+testFanTurbine = testFanTurbine.temperatureChange(testMixer.temperatureFinal, testFan.temperatureInitial, testFan.temperatureFinal);
 testFanTurbine = testFanTurbine.pressureChange(testMixer.pressureInitial);
 
 % Afterburner Stage - Temperature Wrong!

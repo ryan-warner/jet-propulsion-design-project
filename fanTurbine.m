@@ -34,7 +34,7 @@ classdef fanTurbine
         function obj = temperatureChange(obj, temperatureInitial, fanInletTemperature, fanExitTemperature)
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial - (((1 + obj.bypassRatio) * (fanExitTemperature - fanInletTemperature) * obj.fanSpecificHeat) / (obj.specificHeat * (1 + obj.fuelAirRatio)));
-            obj.efficiency = ((obj.temperatureFinal / obj.temperatureInitial) - 1) ./ ((obj.temperatureFinal / obj.temperatureInitial) .^(1/obj.polytropicEfficiency) - 1);
+            obj.efficiency = ((obj.temperatureFinal / obj.temperatureInitial) - 1) ./ ((obj.temperatureFinal / obj.temperatureInitial) .^ (1/obj.polytropicEfficiency) - 1);
         end
 
         function obj = pressureChange(obj, pressureInitial)
