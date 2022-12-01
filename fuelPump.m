@@ -16,7 +16,6 @@ classdef fuelPump
         end
 
         function obj = pumpWorkStandard(obj, burnerInletPressure, pumpInletPressure)
-            % Added 550 kpa offset
             obj.workBurner = obj.fuelAirRatio .* ((burnerInletPressure + 550000 - pumpInletPressure) / (obj.fuelDensity * obj.efficiency));
             obj.workAfterburner = 0;
             obj.pumpWork = obj.workBurner;
