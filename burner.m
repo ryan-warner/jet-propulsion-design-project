@@ -14,7 +14,7 @@ classdef burner
         maxFuelAirRatio
         bleedRatio
         maxBleedRatio
-        cBeta1
+        cB1
 
         pressureInitial
         pressureFinal
@@ -30,6 +30,8 @@ classdef burner
             obj.fuelHeat = fuelHeat;
             obj.maxBleedRatio = maxBleedRatio;
             obj.cBeta1 = cBeta1;
+            obj.bleedRatio = bleedRatio;
+            obj.maxTemperature = maxTemperature + obj.cBeta1 .* sqrt(obj.bleedRatio ./ obj.maxBleedRatio);
             
             Mbar =  0.0288;
             R =  8.3145 ./ Mbar;
@@ -55,7 +57,9 @@ classdef burner
         end
 
         function obj = maxFuelAirRatioCalc(obj)
-            obj.maxFuelAirRatio = ((obj.maxTemperature ./ obj.temperatureInitial) - 1) ./ (((obj.efficiency .* obj.fuelHeat) ./ (obj.specificHeat .* obj.temperatureInitial)) - (obj.maxTemperature ./ obj.temperatureInitial));
+            %obj.maxFuelAirRatio = ((obj.maxTemperature ./ obj.temperatureInitial) - 1) ./ (((obj.efficiency .* obj.fuelHeat) ./ (obj.specificHeat .* obj.temperatureInitial)) - (obj.maxTemperature ./ obj.temperatureInitial));
+            %obj.maxFuelAirRatio = ((obj.temperatureFinal .* (obj.bleedRatio - 1)) + (obj.temperatureInitial .* (1 - obj.bleedRatio))) ./ (obj.temperatureFinal - ((obj.efficiency .* obj.fuelHeat) .* (1 - obj.gamma)))
+            obj.maxFuelAirRatio = (obj.specificHeat .* (obj.maxTemperature - obj.temperatureInitial)) / (obj.fuelHeat .* obj.efficiency)
         end
     end
 end
