@@ -18,16 +18,17 @@ classdef nozzleMixer
     end
 
     methods
-        function obj = nozzleMixer(bypassRatio, fuelAirRatio, afterburnerFARatio, afterburnerTemperatureFinal, fanTemperatureFinal, stagnationPressureRatio)
+        function obj = nozzleMixer(stagnationPressureRatio)
+            obj.stagnationPressureRatio = stagnationPressureRatio;
+            
+        end
+
+        function obj = temperatureChange(obj, bypassRatio, fuelAirRatio, afterburnerFARatio, afterburnerTemperatureFinal, fanTemperatureFinal)
+            obj.afterburnerTemperatureFinal = afterburnerTemperatureFinal;
+            obj.fanTemperatureFinal = fanTemperatureFinal;
             obj.bypassRatio = bypassRatio;
             obj.fuelAirRatio = fuelAirRatio;
             obj.afterburnerFARatio = afterburnerFARatio;
-            obj.afterburnerTemperatureFinal = afterburnerTemperatureFinal;
-            obj.fanTemperatureFinal = fanTemperatureFinal;
-            obj.stagnationPressureRatio = stagnationPressureRatio;
-        end
-
-        function obj = temperatureChange(obj)
             obj.temperatureFinal = obj.fanTemperatureFinal + ((obj.afterburnerTemperatureFinal - obj.fanTemperatureFinal) .* ((1 + obj.fuelAirRatio + obj.afterburnerFARatio) / (1 + obj.fuelAirRatio + obj.afterburnerFARatio + obj.bypassRatio)));
         end
 

@@ -44,7 +44,7 @@ classdef ramjet
             obj.nozzle = obj.nozzle.temperatureChange(obj.combustor.temperatureFinal, obj.combustor.pressureFinal);
             obj.nozzle = obj.nozzle.velocityCalc();
 
-            prettyPrint({obj.diffuser, obj.combustor, obj.nozzle})
+            prettyPrint({obj.diffuser, obj.combustor, obj.nozzl})
         end
     end
 

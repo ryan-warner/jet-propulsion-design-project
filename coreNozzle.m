@@ -16,11 +16,10 @@ classdef coreNozzle
     end
 
     methods
-        function obj = coreNozzle(efficiency, gamma, pressureInitial, ambientPressure)
+        function obj = coreNozzle(efficiency, gamma, ambientPressure)
             obj.efficiency = efficiency;
             obj.gamma = gamma;
             
-            obj.pressureInitial = pressureInitial;
             obj.pressureFinal = ambientPressure;
 
             Mbar = 0.0288;
@@ -28,7 +27,8 @@ classdef coreNozzle
             obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
         end
 
-        function obj = temperatureChange(obj, temperatureInitial)
+        function obj = temperatureChange(obj, temperatureInitial, pressureInitial)
+            obj.pressureInitial = pressureInitial;
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial .* (1 - obj.efficiency .* (1 - (obj.pressureFinal / obj.pressureInitial) .^ ((obj.gamma - 1) / obj.gamma)));
         end

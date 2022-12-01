@@ -20,11 +20,10 @@ classdef fanTurbine
     end
 
     methods 
-        function obj = fanTurbine(polytropicEfficiency, gamma, fuelAirRatio, bypassRatio, fanGamma)
+        function obj = fanTurbine(polytropicEfficiency, gamma, fanGamma)
             obj.gamma = gamma;
             obj.polytropicEfficiency = polytropicEfficiency;
-            obj.fuelAirRatio = fuelAirRatio;
-            obj.bypassRatio = bypassRatio;
+            
 
             Mbar =  0.0288;
             R =  8.3145 ./ Mbar;
@@ -32,7 +31,9 @@ classdef fanTurbine
             obj.fanSpecificHeat = R .* (fanGamma ./ (fanGamma - 1));
         end
 
-        function obj = temperatureChange(obj, temperatureInitial, fanInletTemperature, fanExitTemperature)
+        function obj = temperatureChange(obj, temperatureInitial, fanInletTemperature, fanExitTemperature, fuelAirRatio, bypassRatio)
+            obj.fuelAirRatio = fuelAirRatio;
+            obj.bypassRatio = bypassRatio;
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial - (((1 + obj.bypassRatio) * (fanExitTemperature - fanInletTemperature) * obj.fanSpecificHeat) / (obj.specificHeat * (1 + obj.fuelAirRatio)));
             obj.efficiency = ((obj.temperatureFinal / obj.temperatureInitial) - 1) ./ ((obj.temperatureFinal / obj.temperatureInitial) .^ (1/obj.polytropicEfficiency) - 1);

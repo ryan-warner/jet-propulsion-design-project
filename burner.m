@@ -23,24 +23,24 @@ classdef burner
     end
 
     methods 
-        function obj = burner(stagnationPressureRatio, gamma, efficiency, fuelHeat, fuelAirRatio, maxTemperature, bleedRatio, maxBleedRatio, cBeta1)
+        function obj = burner(stagnationPressureRatio, gamma, efficiency, fuelHeat, maxBleedRatio, cBeta1)
             obj.gamma = gamma;
             obj.efficiency = efficiency;
             obj.stagnationPressureRatio = stagnationPressureRatio;
             obj.fuelHeat = fuelHeat;
-            obj.fuelAirRatio = fuelAirRatio;
             obj.maxBleedRatio = maxBleedRatio;
             obj.cBeta1 = cBeta1;
-            obj.bleedRatio = bleedRatio;
-            obj.maxTemperature = maxTemperature + obj.cBeta1 .* sqrt(obj.bleedRatio ./ obj.maxBleedRatio);
             
             Mbar =  0.0288;
             R =  8.3145 ./ Mbar;
             obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
         end
 
-        function obj = temperatureChange(obj, temperatureInitial)
+        function obj = temperatureChange(obj, temperatureInitial, maxTemperature, bleedRatio, fuelAirRatio)
             obj.temperatureInitial = temperatureInitial;
+            obj.bleedRatio = bleedRatio;
+            obj.fuelAirRatio = fuelAirRatio;
+            obj.maxTemperature = maxTemperature + obj.cBeta1 .* sqrt(obj.bleedRatio ./ obj.maxBleedRatio);
             obj.maxFuelAirRatio = ((obj.maxTemperature/obj.temperatureInitial - 1) / (((obj.efficiency * obj.fuelHeat) / (obj.temperatureInitial * obj.specificHeat)) - (obj.maxTemperature / obj.temperatureInitial)));
             obj.temperatureFinal = obj.temperatureInitial .* (((1 - obj.bleedRatio) + (obj.fuelAirRatio .* obj.efficiency .* obj.fuelHeat) ./ (obj.specificHeat  .* obj.temperatureInitial)) ./ ((1 - obj.bleedRatio) + obj.fuelAirRatio));
             

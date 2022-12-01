@@ -20,22 +20,22 @@ classdef fan
     end
 
     methods
-        function obj = fan(fanPolytropicEfficiency, stagnationPressureRatio, gamma, cBeta1, beta)
+        function obj = fan(fanPolytropicEfficiency, gamma, cBeta1)
             obj.polytropicEfficiency = fanPolytropicEfficiency;
-            obj.stagnationPressureRatio = stagnationPressureRatio;
             obj.gamma = gamma;
-            obj.cBeta1 = cBeta1;
-            obj.beta = beta;
+            obj.cBeta1 = cBeta1;    
 
             Mbar =  0.0288;
             R =  8.3145 ./ Mbar;
             obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
-
-            %do we even need this??
-            obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma .* obj.polytropicEfficiency))) - 1);
         end
 
-        function obj = temperatureChange(obj, temperatureInitial)
+        function obj = temperatureChange(obj, temperatureInitial, beta, stagnationPressureRatio)
+            obj.beta = beta;
+            obj.stagnationPressureRatio = stagnationPressureRatio;
+            %do we even need this??
+            obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma .* obj.polytropicEfficiency))) - 1);
+            
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ ((obj.gamma - 1) / (obj.gamma .* obj.polytropicEfficiency)));
         end

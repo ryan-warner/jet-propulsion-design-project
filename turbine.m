@@ -15,6 +15,7 @@ classdef turbine
         workrate
         flowrate
         fuelAirRatio
+        maxBleedRatio
 
         pressureInitial
         pressureFinal
@@ -23,21 +24,23 @@ classdef turbine
     end
 
     methods
-        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, bleedRatio, cBeta1, workrate, fuelAirRatio)
+        function obj = turbine(polytropicEfficiency, gamma, maxTemperature, cBeta1, maxBleedRatio)
             obj.polytropicEfficiency = polytropicEfficiency;
             obj.gamma = gamma;
             obj.maxTemperature = maxTemperature;
-            obj.bleedRatio = bleedRatio;
             obj.cBeta1 = cBeta1;
-            obj.workrate = workrate;
-            obj.fuelAirRatio = fuelAirRatio;
+            obj.maxBleedRatio = maxBleedRatio;
 
             Mbar =  0.0288;
             R =  8.3145 ./ Mbar;
             obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
         end
 
-        function obj = temperatureChange(obj, temperatureInitial, compressorTemperatureInitial, compressorTemperatureFinal, compressorSpecificHeat)
+        function obj = temperatureChange(obj, temperatureInitial, compressorTemperatureInitial, compressorTemperatureFinal, compressorSpecificHeat, workrate, fuelAirRatio, bleedRatio)
+            obj.workrate = workrate;
+            obj.fuelAirRatio = fuelAirRatio;
+            obj.bleedRatio = bleedRatio;
+            
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial - (((compressorTemperatureFinal - compressorTemperatureInitial) * compressorSpecificHeat) / (obj.specificHeat * (1 + obj.fuelAirRatio - obj.bleedRatio)));
             obj.stagnationTemperatureRatio = obj.temperatureFinal / obj.temperatureInitial;

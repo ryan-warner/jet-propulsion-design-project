@@ -18,20 +18,20 @@ classdef compressor
     end
 
     methods
-        function obj = compressor(stagnationPressureRatio, gamma, polytropicEfficiency)
+        function obj = compressor(gamma, polytropicEfficiency)
             obj.gamma = gamma;
-            obj.stagnationPressureRatio = stagnationPressureRatio;
-
+            
             Mbar =  0.0288;
             R =  8.3145 ./ Mbar;
             obj.specificHeat = R .* (obj.gamma ./ (obj.gamma - 1));
             obj.polytropicEfficiency = polytropicEfficiency;
-            
-            %Again, is this needed?
-            obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma * obj.polytropicEfficiency))) - 1);
         end
 
-        function obj = temperatureChange(obj, temperatureInitial)
+        function obj = temperatureChange(obj, temperatureInitial, stagnationPressureRatio)
+            obj.stagnationPressureRatio = stagnationPressureRatio;
+            %Again, is this needed?
+            obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma * obj.polytropicEfficiency))) - 1);
+            
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma .* obj.polytropicEfficiency)));
             obj.work = obj.specificHeat * (obj.temperatureFinal - obj.temperatureInitial);

@@ -29,14 +29,12 @@ classdef combinedNozzle
     end
 
     methods
-        function obj = combinedNozzle(efficiency, gamma, bypassRatio, fuelAirRatio, afterburnerFARatio, fuelHeat, M, ambientPressure)
+        function obj = combinedNozzle(efficiency, gamma, fuelHeat, ambientPressure)
             obj.efficiency = efficiency;
             obj.gamma = gamma;
-            obj.bypassRatio = bypassRatio;
-            obj.fuelAirRatio = fuelAirRatio;
-            obj.afterburnerFARatio = afterburnerFARatio;
+            
             obj.fuelHeat = fuelHeat;
-            obj.M = M;
+            
             obj.ambientPressure = ambientPressure;
             obj.pressureFinal = ambientPressure;
 
@@ -46,7 +44,12 @@ classdef combinedNozzle
             obj.u = sqrt(1.4 .* obj.R .* 220) .* obj.M;
         end
 
-        function obj = temperatureChange(obj, temperatureInitial, pressureInitial)
+        function obj = temperatureChange(obj, temperatureInitial, pressureInitial, bypassRatio, fuelAirRatio, afterburnerFARatio, flightMach)
+            obj.bypassRatio = bypassRatio;
+            obj.fuelAirRatio = fuelAirRatio;
+            obj.afterburnerFARatio = afterburnerFARatio;
+            obj.M = flightMach;
+
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial .* (1 - obj.efficiency .* (1 - ( (obj.pressureFinal/ pressureInitial) .^((obj.gamma - 1) ./ obj.gamma) )));
         end

@@ -16,18 +16,18 @@ classdef diffuser
     end
 
     methods
-        function obj = diffuser(diffuserEfficiency, gamma, flightMach)
+        function obj = diffuser(diffuserEfficiency, gamma)
             obj.diffuserEfficiency = diffuserEfficiency;
             obj.gamma = gamma;
+        end
+
+        function obj = temperatureChange(obj, temperatureAmb, flightMach)
             obj.flightMach = flightMach;
             if obj.flightMach < 1
                 obj.ramDrag = 1;
             else
                 obj.ramDrag = 1 - 0.075 .* ((flightMach - 1) .^1.35);
             end
-        end
-
-        function obj = temperatureChange(obj, temperatureAmb)
             obj.temperatureInitial = temperatureAmb;
             obj.temperatureFinal = obj.temperatureInitial .* (1 + (0.5 .* (obj.gamma - 1) .* (obj.flightMach .^2)));
         end

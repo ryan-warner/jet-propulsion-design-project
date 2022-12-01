@@ -15,13 +15,13 @@ classdef bleedAirMixer
     end
 
     methods 
-        function obj = bleedAirMixer(gamma, bleedRatio, fuelAirRatio)
+        function obj = bleedAirMixer(gamma)
             obj.gamma = gamma;
-            obj.fuelAirRatio = fuelAirRatio;
-            obj.bleedRatio = bleedRatio;
         end
 
-        function obj = temperatureChange(obj, temperatureInitial, compressorExitTemperature)
+        function obj = temperatureChange(obj, temperatureInitial, compressorExitTemperature, bleedRatio, fuelAirRatio)
+            obj.fuelAirRatio = fuelAirRatio;
+            obj.bleedRatio = bleedRatio;
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = ((1 + obj.fuelAirRatio - obj.bleedRatio) * obj.temperatureInitial + compressorExitTemperature * obj.bleedRatio) / (1 + obj.fuelAirRatio);
         end
