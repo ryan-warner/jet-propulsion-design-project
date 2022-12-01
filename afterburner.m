@@ -25,7 +25,6 @@ classdef afterburner
         function obj = afterburner(gamma, efficiency, maxTemperatureAfterburner, fuelHeat)
             obj.gamma = gamma;
             obj.efficiency = efficiency;
-            
             obj.maxTemperatureAfterburner = maxTemperatureAfterburner;
             obj.fuelHeat = fuelHeat;
 
