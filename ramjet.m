@@ -1,7 +1,6 @@
 classdef ramjet
     properties
         fuelAirRatio
-        bleedRatio
         flightMach
 
         % Required Components
@@ -15,6 +14,8 @@ classdef ramjet
         % Performance Parameters
         exitPressure
         exitTemperature
+        specificThrust
+        thrustSpecificFuelConsumption
     end
 
     methods
@@ -28,16 +29,15 @@ classdef ramjet
             obj.nozzle = coreNozzle(0.95, 1.35, obj.ambientPressure);
         end
 
-        function obj = engineCalc(obj, fuelAirRatio, bleedRatio, flightMach)
+        function obj = engineCalc(obj, fuelAirRatio, flightMach)
             obj.fuelAirRatio = fuelAirRatio;
             obj.flightMach = flightMach;
-            obj.bleedRatio = bleedRatio;
 
             % Stage Calculations
             obj.diffuser = obj.diffuser.temperatureChange(obj.ambientTemperature, obj.flightMach);
             obj.diffuser = obj.diffuser.pressureChange(obj.ambientPressure);
 
-            obj.combustor = obj.combustor.temperatureChange(obj.diffuser.temperatureFinal, 1300, obj.bleedRatio, obj.fuelAirRatio);
+            obj.combustor = obj.combustor.temperatureChange(obj.diffuser.temperatureFinal, 1300, 0, obj.fuelAirRatio);
             obj.combustor = obj.combustor.pressureChange(obj.diffuser.pressureFinal);
             obj.combustor = obj.combustor.maxFuelAirRatioCalc();
 
