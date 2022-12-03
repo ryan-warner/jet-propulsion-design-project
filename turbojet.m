@@ -18,10 +18,14 @@ classdef turbojet
         % Optional Components
         afterburner
 
-        ambientPressure
-        ambientTemperature
+        % Performance Parameters
         exitPressure
         exitTemperature
+        ambientPressure
+        ambientTemperature
+        specificThrust
+        thrustSpecificFuelConsumption
+        maxFuelAirRatio
     end
 
     methods
@@ -71,6 +75,13 @@ classdef turbojet
 
             obj.coreNozzle = obj.coreNozzle.temperatureChange(obj.afterburner.temperatureFinal, obj.afterburner.pressureFinal);
             obj.coreNozzle = obj.coreNozzle.velocityCalc();
+
+             % Set Performance Parameters
+            obj.specificThrust = obj.coreNozzle.ST;
+            obj.thrustSpecificFuelConsumption = obj.coreNozzle.TSFC;
+            obj.exitPressure = obj.ambientPressure;
+            obj.exitTemperature = obj.coreNozzle.temperatureFinal;
+            obj.maxFuelAirRatio = obj.combustor.maxFuelAirRatio;
 
             prettyPrint({obj.diffuser, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.afterburner, obj.coreNozzle})
         end

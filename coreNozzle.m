@@ -1,13 +1,17 @@
 classdef coreNozzle
     properties (Constant)
       station = "e"
-      name = "Combined Nozzle"
+      name = "Core Nozzle"
    end
     properties
         efficiency
         gamma
         specificHeat
         exitVelocity
+        fuelAirRatio
+        airspeed
+        ST
+        TSFC
 
         pressureInitial
         pressureFinal
@@ -35,6 +39,16 @@ classdef coreNozzle
 
         function obj = velocityCalc(obj)
             obj.exitVelocity = sqrt(2 .* obj.specificHeat .* (obj.temperatureInitial - obj.temperatureFinal));
+        end
+
+        function obj = specificThrustCalc(obj, fuelAirRatio, airspeed)
+            obj.fuelAirRatio = fuelAirRatio;
+            obj.airspeed = airspeed;
+            obj.ST = (((1 + obj.fuelAirRatio) .* obj.exitVelocity) - ((obj.airspeed)));
+        end
+
+        function obj = TSFCCalc(obj)
+            obj.TSFC = (obj.fuelAirRatio) ./ obj.ST;
         end
     end
 end

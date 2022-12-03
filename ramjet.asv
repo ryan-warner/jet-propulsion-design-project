@@ -2,6 +2,7 @@ classdef ramjet
     properties
         fuelAirRatio
         flightMach
+        airspeed
 
         % Required Components
         diffuser
@@ -15,7 +16,7 @@ classdef ramjet
         exitPressure
         exitTemperature
         specificThrust
-        specificFuelC
+        thrustSpecificFuelConsumption
     end
 
     methods
@@ -32,6 +33,7 @@ classdef ramjet
         function obj = engineCalc(obj, fuelAirRatio, flightMach)
             obj.fuelAirRatio = fuelAirRatio;
             obj.flightMach = flightMach;
+            obj.airspeed = sqrt(1.4 * 8.3145 ./ 0.0288 * obj.ambientTemperature) * obj.flightMach;
 
             % Stage Calculations
             obj.diffuser = obj.diffuser.temperatureChange(obj.ambientTemperature, obj.flightMach);
@@ -43,6 +45,10 @@ classdef ramjet
 
             obj.nozzle = obj.nozzle.temperatureChange(obj.combustor.temperatureFinal, obj.combustor.pressureFinal);
             obj.nozzle = obj.nozzle.velocityCalc();
+            obj.nozzle = obj.nozzle.specificThrustCalc(obj.fuelAirRatio, obj.airspeed);
+            obj.nozzle = obj.nozzle.TSFCCalc();
+
+            ob
 
             prettyPrint({obj.diffuser, obj.combustor, obj.nozzle})
         end
