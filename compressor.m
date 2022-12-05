@@ -28,10 +28,7 @@ classdef compressor
         end
 
         function obj = temperatureChange(obj, temperatureInitial, stagnationPressureRatio)
-            obj.stagnationPressureRatio = stagnationPressureRatio;
-            %Again, is this needed?
-            obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma * obj.polytropicEfficiency))) - 1);
-            
+            obj.stagnationPressureRatio = stagnationPressureRatio;  
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma .* obj.polytropicEfficiency)));
         end

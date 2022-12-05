@@ -56,8 +56,6 @@ classdef burner
         end
 
         function obj = maxFuelAirRatioCalc(obj)
-            %obj.maxFuelAirRatio = ((obj.maxTemperature ./ obj.temperatureInitial) - 1) ./ (((obj.efficiency .* obj.fuelHeat) ./ (obj.specificHeat .* obj.temperatureInitial)) - (obj.maxTemperature ./ obj.temperatureInitial));
-            %obj.maxFuelAirRatio = ((obj.temperatureFinal .* (obj.bleedRatio - 1)) + (obj.temperatureInitial .* (1 - obj.bleedRatio))) ./ (obj.temperatureFinal - ((obj.efficiency .* obj.fuelHeat) .* (1 - obj.gamma)))
             obj.maxFuelAirRatio = (obj.specificHeat .* (obj.maxTemperature - obj.temperatureInitial)) / (obj.fuelHeat .* obj.efficiency);
         end
     end
