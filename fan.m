@@ -33,9 +33,6 @@ classdef fan
         function obj = temperatureChange(obj, temperatureInitial, beta, stagnationPressureRatio)
             obj.beta = beta;
             obj.stagnationPressureRatio = stagnationPressureRatio;
-            %do we even need this??
-            obj.efficiency = ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ obj.gamma)) - 1) ./ ((obj.stagnationPressureRatio .^ ((obj.gamma - 1) ./ (obj.gamma .* obj.polytropicEfficiency))) - 1);
-            
             obj.temperatureInitial = temperatureInitial;
             obj.temperatureFinal = obj.temperatureInitial .* (obj.stagnationPressureRatio .^ ((obj.gamma - 1) / (obj.gamma .* obj.polytropicEfficiency)));
         end
