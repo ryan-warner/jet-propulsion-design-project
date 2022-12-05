@@ -3,11 +3,11 @@ function goalOneBruteForce
 % linspace all design parameters?
 % Who knows
 
-compressionRatios = linspace(0, 100, 100);
-bleedRatios = linspace(0, 2, 20);
-afterburnerCompressionRatios = [1, 0.97];
-fuelAirRatios = linspace(0, 1, 50);
-afterburnerFuelAirRatios = linspace(0, 1, 50);
+compressionRatios = linspace(0, 100, 10);
+bleedRatios = linspace(0, 2, 10);
+afterburnerOn = [1, 0];
+fuelAirRatios = linspace(0, 1, 10);
+afterburnerFuelAirRatios = linspace(0, 1, 10);
 
 turbojetGroundRoll = turbojet(100000, 285);
 groundRollResult = [];
@@ -17,10 +17,11 @@ cruiseResult = [];
 for i=1 : length(compressionRatios)
     for j=1 : length(bleedRatios)
         for k=1 : length(afterburnerFuelAirRatios)
-            for u=1 : length(afterburnerCompressionRatios)
+            for u=1 : length(afterburnerOn)
                 for v=1 : length(fuelAirRatios)
-                    groundRollResult = [turbojetGroundRoll.engineCalc(fuelAirRatios(v), bleedRatios(j), 0, compressionRatios(i),afterburnerFuelAirRatios(k), afterburnerCompressionRatios(u)), groundRollResult];
-                    cruiseResult = [turbojetCruise.engineCalc(fuelAirRatios(v), bleedRatios(j), 0.86, compressionRatios(i),afterburnerFuelAirRatios(k), afterburnerCompressionRatios(u)), cruiseResult];
+                    groundRollResult = [turbojetGroundRoll.engineCalc(fuelAirRatios(v), bleedRatios(j), 0, compressionRatios(i),afterburnerFuelAirRatios(k), afterburnerOn(u)), groundRollResult];
+                    length(groundRollResult)
+                    cruiseResult = [turbojetCruise.engineCalc(fuelAirRatios(v), bleedRatios(j), 0.86, compressionRatios(i),afterburnerFuelAirRatios(k), afterburnerOn(u)), cruiseResult];
                 end
             end
         end

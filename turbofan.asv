@@ -103,7 +103,7 @@ classdef turbofan
             obj.fanTurbine = obj.fanTurbine.pressureChange(obj.bleedAirMixer.pressureFinal);
             obj.fanTurbine = obj.fanTurbine.workCalc();
 
-            obj.afterburner = obj.afterburner.temperatureChange(obj.fanTurbine.temperatureFinal, obj.fuelAirRatio, obj.fuelAirRatioAfterburner, afterburnerOn);
+            obj.afterburner = obj.afterburner.temperatureChange(obj.fanTurbine.temperatureFinal, obj.fuelAirRatio, obj.fuelAirRatioAfterburner);
             obj.afterburner = obj.afterburner.pressureChange(obj.fanTurbine.pressureFinal);
             obj.afterburner = obj.afterburner.maxFuelAirRatioCalc();
 

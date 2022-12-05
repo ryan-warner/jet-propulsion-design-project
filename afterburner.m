@@ -13,6 +13,7 @@ classdef afterburner
         maxTemperatureAfterburner
         stagnationPressureRatio
         R
+        afterburnerOn
         
         pressureInitial
         pressureFinal
@@ -33,21 +34,40 @@ classdef afterburner
             obj.specificHeat = obj.R .* (obj.gamma ./ (obj.gamma - 1));
         end
 
-        function obj = temperatureChange(obj, temperatureInitial, fuelAirRatio, fuelAirRatioAfterburner, stagnationPressureRatio)
-            obj.fuelAirRatio = fuelAirRatio;
-            obj.fuelAirRatioAfterburner = fuelAirRatioAfterburner;
+        function obj = temperatureChange(obj, temperatureInitial, fuelAirRatio, fuelAirRatioAfterburner, afterburnerOn)
             obj.temperatureInitial = temperatureInitial;
-            obj.stagnationPressureRatio = stagnationPressureRatio;
-            obj.temperatureFinal = (obj.fuelAirRatioAfterburner * obj.fuelHeat * obj.efficiency + (1 + obj.fuelAirRatio) * obj.specificHeat * obj.temperatureInitial) / (obj.specificHeat * (1 + obj.fuelAirRatio + obj.fuelAirRatioAfterburner));
+            if afterburnerOn >= 0.5
+                obj.afterburnerOn = true;
+                obj.stagnationPressureRatio = 0.97;
+            else
+                obj.afterburnerOn = false;
+                obj.stagnationPressureRatio = 1;
+            end
+            if obj.afterburnerOn
+                obj.fuelAirRatio = fuelAirRatio;
+                obj.fuelAirRatioAfterburner = fuelAirRatioAfterburner;
+                obj.temperatureFinal = (obj.fuelAirRatioAfterburner * obj.fuelHeat * obj.efficiency + (1 + obj.fuelAirRatio) * obj.specificHeat * obj.temperatureInitial) / (obj.specificHeat * (1 + obj.fuelAirRatio + obj.fuelAirRatioAfterburner));
+            else
+                obj.temperatureFinal = obj.temperatureInitial;
+            end
         end
 
         function obj = pressureChange(obj, pressureInitial)
             obj.pressureInitial = pressureInitial;
-            obj.pressureFinal = obj.stagnationPressureRatio * obj.pressureInitial;
+            
+            if obj.afterburnerOn
+                obj.pressureFinal = obj.stagnationPressureRatio * obj.pressureInitial;
+            else
+                obj.pressureFinal = obj.pressureInitial;
+            end
         end
 
         function obj = maxFuelAirRatioCalc(obj)
-           obj.maxFuelAirRatio = obj.specificHeat .* (obj.maxTemperatureAfterburner - obj.temperatureInitial) ./ (obj.efficiency .* obj.fuelHeat);
+            if obj.afterburnerOn
+                obj.maxFuelAirRatio = obj.specificHeat .* (obj.maxTemperatureAfterburner - obj.temperatureInitial) ./ (obj.efficiency .* obj.fuelHeat);
+            else
+                obj.maxFuelAirRatio = 0;
+            end
         end
     end
 end

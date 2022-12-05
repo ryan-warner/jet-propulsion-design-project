@@ -1,11 +1,13 @@
 classdef turbojet
     properties
         flightMach
+        airspeed
         fuelAirRatio
         bleedRatio
         compressorStagnationPressureRatio
         fuelAirRatioAfterburner
         stagnationPressureRatioAfterburner
+        afterburnerOn
 
         % Required Components
         diffuser
@@ -39,18 +41,25 @@ classdef turbojet
             obj.combustor = burner(0.98, 1.33, 0.99, 45000000, 0.12, 700);
             obj.turbine = turbine(0.92, 1.33, 1300, 700, 0.12);
             obj.bleedAirMixer = bleedAirMixer(1.34);
-            obj.afterburner = afterburner(1.32, 0.96, 2200, 45000000);
+            obj.afterburner = afterburner(1.32, 0.96, 2200, 45000000, obj.afterburnerOn);
             obj.coreNozzle = coreNozzle(0.95, 1.35, obj.ambientPressure);
         end
 
-        function obj = engineCalc(obj, fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, stagnationPressureRatioAfterburner)
+        function obj = engineCalc(obj, fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, afterburnerOn)
             obj.fuelAirRatio = fuelAirRatio;
             obj.flightMach = flightMach;
             obj.bleedRatio = bleedRatio;
             obj.compressorStagnationPressureRatio = compressorStagnationPressureRatio;
             obj.fuelAirRatioAfterburner = fuelAirRatioAfterburner;
-            obj.stagnationPressureRatioAfterburner = stagnationPressureRatioAfterburner;
-            
+            obj.airspeed = obj.flightMach * sqrt(1.4 * obj.ambientTemperature * 8.3145 ./ 0.0288);
+            obj.afterburnerOn = afterburnerOn;
+
+            if obj.afterburnerOn >= 0.5
+                obj.stagnationPressureRatioAfterburner = 0.97;
+            else
+                obj.stagnationPressureRatioAfterburner = 1;
+            end
+
             % Stage Calculations
             obj.diffuser = obj.diffuser.temperatureChange(obj.ambientTemperature, obj.flightMach);
             obj.diffuser = obj.diffuser.pressureChange(obj.ambientPressure);
@@ -69,25 +78,37 @@ classdef turbojet
             obj.bleedAirMixer = obj.bleedAirMixer.temperatureChange(obj.turbine.temperatureFinal, obj.compressor.temperatureFinal, obj.bleedRatio, obj.fuelAirRatio);
             obj.bleedAirMixer = obj.bleedAirMixer.pressureChange(obj.turbine.pressureFinal, obj.compressor.temperatureFinal);
 
-            obj.afterburner = obj.afterburner.temperatureChange(obj.bleedAirMixer.temperatureFinal, obj.fuelAirRatio, obj.fuelAirRatioAfterburner, obj.stagnationPressureRatioAfterburner);
+            obj.afterburner = obj.afterburner.temperatureChange(obj.bleedAirMixer.temperatureFinal, obj.fuelAirRatio, obj.fuelAirRatioAfterburner, obafterburnerOn);
             obj.afterburner = obj.afterburner.pressureChange(obj.bleedAirMixer.pressureFinal);
             obj.afterburner = obj.afterburner.maxFuelAirRatioCalc();
 
             obj.coreNozzle = obj.coreNozzle.temperatureChange(obj.afterburner.temperatureFinal, obj.afterburner.pressureFinal);
             obj.coreNozzle = obj.coreNozzle.velocityCalc();
+            obj.coreNozzle = obj.coreNozzle.specificThrustCalc(obj.fuelAirRatio, obj.airspeed);
+            obj.coreNozzle = obj.coreNozzle.TSFCCalc();
 
              % Set Performance Parameters
-            obj.specificThrust = obj.coreNozzle.ST;
+            %if (imag(obj.coreNozzle.ST) ~= 0)
+            %    obj.specificThrust = 0;
+            %else
+               obj.specificThrust = obj.coreNozzle.ST;
+            %end
             obj.thrustSpecificFuelConsumption = obj.coreNozzle.TSFC;
             obj.exitPressure = obj.ambientPressure;
             obj.exitTemperature = obj.coreNozzle.temperatureFinal;
             obj.maxFuelAirRatio = obj.combustor.maxFuelAirRatio;
 
-            prettyPrint({obj.diffuser, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.afterburner, obj.coreNozzle})
+            prettyPrint({obj.diffuser, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.afterburner, obj.coreNozzle});
         end
 
-        function obj = turbojetWrapper(obj, x) 
-            obj.engineCalc(x[1],x[2],x[3],x[4],x[5],x[6])
+        function result = turbojetWrapper(obj, x) 
+            % x is of the form [fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, stagnationPressureRatioAfterburner]
+            result = obj.engineCalc(x(1),x(2),x(3),x(4),x(5),x(6)).thrustSpecificFuelConsumption;
+        end
+
+        function result = turbojetThrustWrapper(obj, x)
+            % x is of the form [fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, stagnationPressureRatioAfterburner]
+            result = obj.engineCalc(x(1),x(2),x(3),x(4),x(5),x(6)).specificThrust;
         end
     end
 

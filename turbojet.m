@@ -7,6 +7,7 @@ classdef turbojet
         compressorStagnationPressureRatio
         fuelAirRatioAfterburner
         stagnationPressureRatioAfterburner
+        afterburnerOn
 
         % Required Components
         diffuser
@@ -44,15 +45,21 @@ classdef turbojet
             obj.coreNozzle = coreNozzle(0.95, 1.35, obj.ambientPressure);
         end
 
-        function obj = engineCalc(obj, fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, stagnationPressureRatioAfterburner)
+        function obj = engineCalc(obj, fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, afterburnerOn)
             obj.fuelAirRatio = fuelAirRatio;
             obj.flightMach = flightMach;
             obj.bleedRatio = bleedRatio;
             obj.compressorStagnationPressureRatio = compressorStagnationPressureRatio;
             obj.fuelAirRatioAfterburner = fuelAirRatioAfterburner;
-            obj.stagnationPressureRatioAfterburner = stagnationPressureRatioAfterburner;
             obj.airspeed = obj.flightMach * sqrt(1.4 * obj.ambientTemperature * 8.3145 ./ 0.0288);
-            
+            obj.afterburnerOn = afterburnerOn;
+
+            if obj.afterburnerOn >= 0.5
+                obj.stagnationPressureRatioAfterburner = 0.97;
+            else
+                obj.stagnationPressureRatioAfterburner = 1;
+            end
+
             % Stage Calculations
             obj.diffuser = obj.diffuser.temperatureChange(obj.ambientTemperature, obj.flightMach);
             obj.diffuser = obj.diffuser.pressureChange(obj.ambientPressure);
@@ -71,7 +78,7 @@ classdef turbojet
             obj.bleedAirMixer = obj.bleedAirMixer.temperatureChange(obj.turbine.temperatureFinal, obj.compressor.temperatureFinal, obj.bleedRatio, obj.fuelAirRatio);
             obj.bleedAirMixer = obj.bleedAirMixer.pressureChange(obj.turbine.pressureFinal, obj.compressor.temperatureFinal);
 
-            obj.afterburner = obj.afterburner.temperatureChange(obj.bleedAirMixer.temperatureFinal, obj.fuelAirRatio, obj.fuelAirRatioAfterburner, obj.stagnationPressureRatioAfterburner);
+            obj.afterburner = obj.afterburner.temperatureChange(obj.bleedAirMixer.temperatureFinal, obj.fuelAirRatio, obj.fuelAirRatioAfterburner, afterburnerOn);
             obj.afterburner = obj.afterburner.pressureChange(obj.bleedAirMixer.pressureFinal);
             obj.afterburner = obj.afterburner.maxFuelAirRatioCalc();
 
