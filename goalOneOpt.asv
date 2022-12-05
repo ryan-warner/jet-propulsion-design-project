@@ -1,0 +1,25 @@
+function goalOneOpt(engine, flightMach, reqSpecificThrust, x0)
+% Minimize TSFC at the given ST
+
+% x is of the form [fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, stagnationPressureRatioAfterburner]
+
+%x0=[0.01, 0, flightMach, 2, 0, 2, reqSpecificThrust]; % Optimizer starting point
+A=[0, 0, 1, 0, 0, 0, 1]; % matrix for linear inequality constraint for max AR
+b=[flightMach + reqSpecificThrust];
+
+Aeq=[0, 0, 1, 0, 0, 0, 1];
+beq=[0; 0; 1; 0; 0; 0; 1];
+
+lb=[0; 0; flightMach; 0; 0; 0; reqSpecificThrust]; % Lower bounds. Mostly 0?
+%ub=[0; 0; flightMach; 0; 0; 0]; % Upper bounds. Set by element?.
+
+fun=@(x)engine.turbojetWrapper(x);
+
+nonLinearInstance = nonLinearThrustConstraint(engine, x0(7))
+
+nonlincon=@(x)non
+
+options=optimoptions(@fmincon,'Display','iter','Algorithm','sqp');
+[exitflag,output] = fmincon(fun,x0,A,b,[],[],lb,[],nonlincon,options)
+
+end

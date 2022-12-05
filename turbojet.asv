@@ -1,7 +1,6 @@
 classdef turbojet
     properties
         flightMach
-        airspeed
         fuelAirRatio
         bleedRatio
         compressorStagnationPressureRatio
@@ -51,7 +50,6 @@ classdef turbojet
             obj.compressorStagnationPressureRatio = compressorStagnationPressureRatio;
             obj.fuelAirRatioAfterburner = fuelAirRatioAfterburner;
             obj.stagnationPressureRatioAfterburner = stagnationPressureRatioAfterburner;
-            obj.airspeed = obj.flightMach * sqrt(1.4 * obj.ambientTemperature * 8.3145 ./ 0.0288);
             
             % Stage Calculations
             obj.diffuser = obj.diffuser.temperatureChange(obj.ambientTemperature, obj.flightMach);
@@ -77,8 +75,6 @@ classdef turbojet
 
             obj.coreNozzle = obj.coreNozzle.temperatureChange(obj.afterburner.temperatureFinal, obj.afterburner.pressureFinal);
             obj.coreNozzle = obj.coreNozzle.velocityCalc();
-            obj.coreNozzle = obj.coreNozzle.specificThrustCalc(obj.fuelAirRatio, obj.airspeed);
-            obj.coreNozzle = obj.coreNozzle.TSFCCalc();
 
              % Set Performance Parameters
             obj.specificThrust = obj.coreNozzle.ST;
@@ -87,17 +83,11 @@ classdef turbojet
             obj.exitTemperature = obj.coreNozzle.temperatureFinal;
             obj.maxFuelAirRatio = obj.combustor.maxFuelAirRatio;
 
-            prettyPrint({obj.diffuser, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.afterburner, obj.coreNozzle});
+            prettyPrint({obj.diffuser, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.afterburner, obj.coreNozzle})
         end
 
-        function result = turbojetWrapper(obj, x) 
-            % x is of the form [fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, stagnationPressureRatioAfterburner]
-            result = obj.engineCalc(x(1),x(2),x(3),x(4),x(5),x(6)).thrustSpecificFuelConsumption;
-        end
-
-        function result = turbojetThrustWrapper(obj, x)
-            % x is of the form [fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, stagnationPressureRatioAfterburner]
-            result = obj.engineCalc(x(1),x(2),x(3),x(4),x(5),x(6)).specificThrust;
+        function obj = turbojetWrapper(obj, x) 
+            obj.engineCalc(x[1],x[2],x[3],x[4],x[5],x[6])
         end
     end
 

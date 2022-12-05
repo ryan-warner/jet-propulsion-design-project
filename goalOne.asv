@@ -11,11 +11,11 @@ function goalOne
 
 ramjetGroundRoll = ramjet(100000, 285);
 ramjetCruise = ramjet(29000, 220)
-ramjetGroundSolver = @(fuelAirRatio) ramjetGroundRoll.engineCalc(fuelAirRatio, 0) - 860;
-ramjetCruiseSolver = @(fuelAirRatio) ramjetCruise.engineCalc(fuelAirRati, 0.86) - 860;
+ramjetGroundSolver = @(fuelAirRatio) ramjetGroundRoll.engineCalc(fuelAirRatio, 0).specificThrust - 860;
+ramjetCruiseSolver = @(fuelAirRatio) ramjetCruise.engineCalc(fuelAirRatio, 0.86).specificThrust - 860;
 
-ramjetGroundResult = fsolve(ramjetGroundSolver, 0);
-ramjetCruiseResult = fsolve(ramjetCruiseSolver,0);
+ramjetGroundResult = fsolve(ramjetGroundSolver, 0)
+ramjetCruiseResult = fsolve(ramjetCruiseSolver, 0)
 
 
 % Turbojet Optimization
@@ -25,6 +25,9 @@ ramjetCruiseResult = fsolve(ramjetCruiseSolver,0);
 % compressorStagnationPressureRatio
 % fuelAirRatioAfterburner
 % stagnationPressureRatioAfterburner
+
+turb = ramjet(100000, 285);
+ramjetCruise = ramjet(29000, 220)
 
 % Turbofan Optimization
 % Parameters

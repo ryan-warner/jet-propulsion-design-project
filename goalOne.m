@@ -26,6 +26,19 @@ ramjetCruiseResult = fsolve(ramjetCruiseSolver, 0)
 % fuelAirRatioAfterburner
 % stagnationPressureRatioAfterburner
 
+turbojetGroundRoll = turbojet(100000, 285);
+turbojetCruise = turbojet(29000, 220);
+
+turbojetGroundSolver = @(fuelAirRatio) turbojetGroundRoll.engineCalc(fuelAirRatio, 0, 0, 30, 0, 2).specificThrust - 860;
+turbojetGroundResult = fsolve(turbojetGroundSolver, 0)
+turbojetCruiseSolver = @(fuelAirRatio) turbojetCruise.engineCalc(fuelAirRatio, 0, 0.86, 30, 0, 2).specificThrust - 860;
+turbojetCruiseResult = fsolve(turbojetCruiseSolver, 0)
+
+disp("Ground Roll Optimization - Turbojet")
+goalOneOpt(turbojetGroundRoll, 0, 860, [turbojetGroundResult, 0, 0, 20, 0, 2, 860])
+disp("Cruise Optimization - Turbojet")
+goalOneOpt(turbojetCruise, 0.86, 860, [turbojetCruiseResult, 0, 0.86, 20, 0, 2, 860])
+
 % Turbofan Optimization
 % Parameters
 % fuelAirRatio
