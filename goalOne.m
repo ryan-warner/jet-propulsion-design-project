@@ -29,15 +29,16 @@ ramjetCruiseResult = fsolve(ramjetCruiseSolver, 0)
 turbojetGroundRoll = turbojet(100000, 285);
 turbojetCruise = turbojet(29000, 220);
 
-turbojetGroundSolver = @(fuelAirRatio) turbojetGroundRoll.engineCalc(fuelAirRatio, 0, 0, 30, 0, 2).specificThrust - 860;
-turbojetGroundResult = fsolve(turbojetGroundSolver, 0)
-turbojetCruiseSolver = @(fuelAirRatio) turbojetCruise.engineCalc(fuelAirRatio, 0, 0.86, 30, 0, 2).specificThrust - 860;
-turbojetCruiseResult = fsolve(turbojetCruiseSolver, 0)
+turbojetGroundSolver = @(fuelAirRatio) turbojetGroundRoll.engineCalc(fuelAirRatio, 0.1, 0, 30, 0.01, 0.97).specificThrust - 2800;
+turbojetGroundResult = fsolve(turbojetGroundSolver, 0.1)
+
+turbojetCruiseSolver = @(fuelAirRatio) turbojetCruise.engineCalc(fuelAirRatio, 0.1, 0.86, 30, 0.01, 0.97).specificThrust - 860;
+turbojetCruiseResult = fsolve(turbojetCruiseSolver, 0.1)
 
 disp("Ground Roll Optimization - Turbojet")
-goalOneOpt(turbojetGroundRoll, 0, 860, [turbojetGroundResult, 0, 0, 20, 0, 2, 860])
+goalOneOpt(turbojetGroundRoll, 0, 2800, [turbojetGroundResult, 0.1, 0, 30, 0.01, 0.97, 2800])
 disp("Cruise Optimization - Turbojet")
-goalOneOpt(turbojetCruise, 0.86, 860, [turbojetCruiseResult, 0, 0.86, 20, 0, 2, 860])
+goalOneOpt(turbojetCruise, 0.86, 860, [turbojetCruiseResult, 0.1, 0.86, 30, 0.01, 0.97, 860])
 
 % Turbofan Optimization
 % Parameters

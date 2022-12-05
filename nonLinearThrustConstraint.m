@@ -11,7 +11,11 @@ classdef nonLinearThrustConstraint
         end
 
         function [ineq,eq] = nonLinearFunc(obj, x)
-            eq=obj.engine.turbojetThrustWrapper(x) - obj.reqThrust;
+            if abs(obj.engine.turbojetThrustWrapper(x) - obj.reqThrust) < 0.1
+                eq=0;
+            else
+                eq = obj.engine.turbojetThrustWrapper(x) - obj.reqThrust;
+            end
             ineq=[];
         end
     end

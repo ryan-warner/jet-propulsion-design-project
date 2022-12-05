@@ -81,7 +81,11 @@ classdef turbojet
             obj.coreNozzle = obj.coreNozzle.TSFCCalc();
 
              % Set Performance Parameters
-            obj.specificThrust = obj.coreNozzle.ST;
+            %if (imag(obj.coreNozzle.ST) ~= 0)
+            %    obj.specificThrust = 0;
+            %else
+               obj.specificThrust = obj.coreNozzle.ST;
+            %end
             obj.thrustSpecificFuelConsumption = obj.coreNozzle.TSFC;
             obj.exitPressure = obj.ambientPressure;
             obj.exitTemperature = obj.coreNozzle.temperatureFinal;

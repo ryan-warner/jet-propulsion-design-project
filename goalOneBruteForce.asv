@@ -1,0 +1,23 @@
+function goalOneBruteForce
+
+% linspace all design parameters?
+% Who knows
+
+compressionRatios = linspace(0, 100, 10000);
+bleedRatios = linspace(0, 5, 10000);
+afterburnerCompressionRatios = [1, 0.97];
+fuelAirRatios = linspace(0, 1, 10000);
+afterburnerFuelAirRatios = linspace(0, 1, 10000);
+
+turbojetGroundRoll = turbojet(100000, 285);
+turbojetCruise = turbojet(29000, 220);
+
+for i=1 : length(compressionRatios)
+    for j=1 : length(bleedRatios)
+        for k=1 : length(a)
+    end
+end
+
+
+
+end

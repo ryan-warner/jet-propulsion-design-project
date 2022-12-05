@@ -19,7 +19,7 @@ nonLinearInstance = nonLinearThrustConstraint(engine, x0(7));
 
 nonlincon=@(x)nonLinearInstance.nonLinearFunc(x);
 
-options=optimoptions(@fmincon,'Display','iter','Algorithm','interior-point', 'display','none', MaxFunctionEvaluations=300000, MaxIterations=10000);
+options=optimoptions(@fmincon,'Display','iter','Algorithm','interior-point', 'display','none', MaxFunctionEvaluations=30000, MaxIterations=1000);
 [x,fVal, exitFlag] = fmincon(fun,x0,A,b,[],[],lb,ub,nonlincon,options)
 
 end
