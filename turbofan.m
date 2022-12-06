@@ -8,8 +8,12 @@ classdef turbofan
         fanStagnationPressureRatio
         compressorStagnationPressureRatio
         stagnationPressureRatioAfterburner
+<<<<<<< Updated upstream
         nozzleType
         afterburnerOn
+=======
+        airspeed
+>>>>>>> Stashed changes
         
         % Required Components
         diffuser
@@ -28,6 +32,8 @@ classdef turbofan
         % Virtual Components
         bleedAirMixer
         nozzleMixer
+        specificThrust
+        thrustSpecficFuelConsumption
 
         ambientPressure
         ambientTemperature
@@ -64,6 +70,7 @@ classdef turbofan
             obj.bypassRatio = bypassRatio;
             obj.fuelAirRatioAfterburner = fuelAirRatioAfterburner;
             obj.stagnationPressureRatioAfterburner = stagnationPressureRatioAfterburner;
+<<<<<<< Updated upstream
             
             if afterburnerOn >= 0.5
                 obj.afterburnerOn = true;
@@ -76,6 +83,9 @@ classdef turbofan
             else
                 obj.nozzleType = "separate";
             end
+=======
+             obj.airspeed = obj.flightMach * sqrt(1.4 * obj.ambientTemperature * 8.3145 ./ 0.0288);
+>>>>>>> Stashed changes
 
             % Stage Calculations
             obj.diffuser = obj.diffuser.temperatureChange(obj.ambientTemperature, obj.flightMach);
@@ -109,6 +119,9 @@ classdef turbofan
 
             obj.coreNozzle = obj.coreNozzle.temperatureChange(obj.afterburner.temperatureFinal, obj.afterburner.pressureFinal);
             obj.coreNozzle = obj.coreNozzle.velocityCalc();
+              obj.coreNozzle = obj.coreNozzle.specificThrustCalc(obj.fuelAirRatio, obj.airspeed);
+            obj.coreNozzle = obj.coreNozzle.TSFCCalc();
+
 
             obj.fanNozzle = obj.fanNozzle.temperatureChange(obj.fan.pressureFinal, obj.fan.temperatureFinal);
             obj.fanNozzle = obj.fanNozzle.velocityCalc(obj.fan.temperatureFinal);
@@ -118,6 +131,10 @@ classdef turbofan
             obj.nozzleMixer = obj.nozzleMixer.pressureChange(obj.fan.pressureFinal, obj.afterburner.pressureFinal);
 
             obj.combinedNozzle = obj.combinedNozzle.temperatureChange(obj.nozzleMixer.temperatureFinal, obj.nozzleMixer.pressureFinal, obj.bypassRatio, obj.fuelAirRatio, obj.fuelAirRatioAfterburner, obj.flightMach);
+
+            obj.specificThrust = obj.coreNozzle.ST;
+            
+            obj.thrustSpecficFuelConsumption = obj.coreNozzle.TSFC;
 
             prettyPrint({obj.diffuser, obj.fan, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.fanTurbine, obj.afterburner, obj.coreNozzle, obj.fanNozzle, obj.nozzleMixer, obj.combinedNozzle})
         end
