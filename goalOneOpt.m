@@ -4,7 +4,7 @@ function goalOneOpt(engine, flightMach, reqSpecificThrust, x0)
 % x is of the form [fuelAirRatio, bleedRatio, flightMach, compressorStagnationPressureRatio, fuelAirRatioAfterburner, afterburnerOn]
 
 %x0=[0.01, 0, flightMach, 2, 0, 2, reqSpecificThrust]; % Optimizer starting point
-A=[0, 0, 1, 0, 0, 0, 1]; % matrix for linear inequality constraint for max AR
+A=[0, 0, 1, 1, 0, 0, 1]; % matrix for linear inequality constraint for max AR
 b=[flightMach + reqSpecificThrust];
 
 Aeq=[0, 0, 1, 0, 0, 0, 1];

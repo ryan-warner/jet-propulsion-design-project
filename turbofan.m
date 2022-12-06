@@ -10,6 +10,7 @@ classdef turbofan
         stagnationPressureRatioAfterburner
         nozzleType
         afterburnerOn
+        airspeed
         
         % Required Components
         diffuser
@@ -20,10 +21,12 @@ classdef turbofan
         fanTurbine
         coreNozzle
         fanNozzle
+        fuelPump
 
         % Optional Components
         afterburner
         combinedNozzle
+        separateNozzle
 
         % Virtual Components
         bleedAirMixer
@@ -33,6 +36,8 @@ classdef turbofan
         ambientTemperature
         exitPressure
         exitTemperature
+        thrustSpecificFuelConsumption
+        specificThrust
     end
 
     methods
@@ -64,6 +69,7 @@ classdef turbofan
             obj.bypassRatio = bypassRatio;
             obj.fuelAirRatioAfterburner = fuelAirRatioAfterburner;
             obj.stagnationPressureRatioAfterburner = stagnationPressureRatioAfterburner;
+            obj.airspeed = obj.flightMach * sqrt(1.4 * obj.ambientTemperature * 8.3145 ./ 0.0288);
             
             if afterburnerOn >= 0.5
                 obj.afterburnerOn = true;
@@ -118,8 +124,29 @@ classdef turbofan
             obj.nozzleMixer = obj.nozzleMixer.pressureChange(obj.fan.pressureFinal, obj.afterburner.pressureFinal);
 
             obj.combinedNozzle = obj.combinedNozzle.temperatureChange(obj.nozzleMixer.temperatureFinal, obj.nozzleMixer.pressureFinal, obj.bypassRatio, obj.fuelAirRatio, obj.fuelAirRatioAfterburner, obj.flightMach);
+            obj.combinedNozzle = obj.combinedNozzle.exitVelocityCalc(obj.nozzleMixer.pressureFinal);
+            obj.combinedNozzle.u = obj.airspeed;
+            obj.combinedNozzle = obj.combinedNozzle.dragLossCalc();
+            obj.combinedNozzle = obj.combinedNozzle.specificThrustCalc();
+            obj.combinedNozzle = obj.combinedNozzle.TSFCCalc();
 
-            prettyPrint({obj.diffuser, obj.fan, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.fanTurbine, obj.afterburner, obj.coreNozzle, obj.fanNozzle, obj.nozzleMixer, obj.combinedNozzle})
+            obj.combinedNozzle = obj.combinedNozzle.thermalEfficiencyCalc();
+            obj.combinedNozzle = obj.combinedNozzle.propulsiveEfficiencyCalc();
+            obj.combinedNozzle = obj.combinedNozzle.efficiencyCalc();
+            obj.combinedNozzle
+
+            obj.specificThrust = obj.combinedNozzle.effectiveSpecificThrust;
+            obj.thrustSpecificFuelConsumption = obj.combinedNozzle.TSFC;
+
+            obj.separateNozzle = separateNozzle(obj.fuelAirRatio, obj.fuelAirRatioAfterburner, obj.bypassRatio, obj.airspeed, obj.combustor.fuelHeat, obj.coreNozzle.exitVelocity, obj.fanNozzle.exitVelocity, obj.flightMach);
+            obj.separateNozzle = obj.separateNozzle.dragLossCalc(obj.ambientPressure);
+            obj.separateNozzle = obj.separateNozzle.specificThrustCalc();
+            obj.separateNozzle = obj.separateNozzle.TSFCCalc();
+            
+            obj.fuelPump = fuelPump(780, obj.fuelAirRatio, 0.35);
+            obj.fuelPump = obj.fuelPump.pumpWorkAfterburner(obj.combustor.pressureInitial, 104000, obj.afterburner.pressureInitial, obj.fuelAirRatioAfterburner);
+            
+            prettyPrint({obj.diffuser, obj.fan, obj.compressor, obj.combustor, obj.turbine, obj.bleedAirMixer, obj.fanTurbine, obj.afterburner, obj.coreNozzle, obj.fanNozzle, obj.nozzleMixer, obj.combinedNozzle});
         end
     end
 
