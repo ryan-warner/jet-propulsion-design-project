@@ -36,6 +36,7 @@ classdef afterburner
 
         function obj = temperatureChange(obj, temperatureInitial, fuelAirRatio, fuelAirRatioAfterburner, afterburnerOn)
             obj.temperatureInitial = temperatureInitial;
+<<<<<<< Updated upstream
             if afterburnerOn >= 0.5
                 obj.afterburnerOn = true;
                 obj.stagnationPressureRatio = 0.97;
@@ -50,6 +51,11 @@ classdef afterburner
             else
                 obj.temperatureFinal = obj.temperatureInitial;
             end
+=======
+            obj.stagnationPressureRatio = stagnationPressureRatio;
+            obj.temperatureFinal = (obj.fuelAirRatioAfterburner * obj.fuelHeat * obj.efficiency + (1 + obj.fuelAirRatio) * obj.specificHeat * obj.temperatureInitial) / (obj.specificHeat * (1 + obj.fuelAirRatio + obj.fuelAirRatioAfterburner));
+
+>>>>>>> Stashed changes
         end
 
         function obj = pressureChange(obj, pressureInitial)
